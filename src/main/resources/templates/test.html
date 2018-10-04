@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+
+    <tr th:each="jabatan : ${jabatans}">
+        <td th:text="${jabatan.id}">Id</td>
+        <td th:text="${jabatan.getNama()}">Name</td>
+        <td th:text="${jabatan.getGajiPokok()}">Gaji</td>
+    </tr>
+</table>
+</body>
+</html>

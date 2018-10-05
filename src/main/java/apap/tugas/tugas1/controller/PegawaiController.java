@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,23 +22,18 @@ public class PegawaiController {
     @Qualifier(value = "PegawaiServiceImpl")
     private PegawaiService mService;
 
-    @GetMapping(value = "/")
-    public String home() {
-        return "pages/HomePage.html";
-    }
-
     @GetMapping(value = "/pegawai")
-    public String searchPegawai(@RequestParam(value = "nip") String nip, Model model){
-        Pegawai pegawai = mService.getManager().getPegawaiByNip(nip);
+    public String pegawaiDetail(@RequestParam(value = "nip") String nip, Model model){
+        Optional<Pegawai> pegawai = mService.getManager().getPegawaiByNip(nip);
         LOGGER.log(Level.INFO, String.format("Search Pegawai By NIP: %s; Result: %s", nip, pegawai.toString()));
 
-        if(pegawai == null) {
+        if(!pegawai.isPresent()) {
             // throw custom exception
             return "redirect:/";
         }
 
-        model.addAttribute("pegawai", pegawai);
-        return "pages/PegawaiPage.html";
+        model.addAttribute("pegawai", pegawai.get());
+        return "pages/PegawaiDetailPage.html";
     }
 
 }

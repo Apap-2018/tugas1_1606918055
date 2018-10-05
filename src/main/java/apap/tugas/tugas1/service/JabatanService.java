@@ -1,6 +1,6 @@
 package apap.tugas.tugas1.service;
 
-import apap.tugas.tugas1.model.Jabatan;
+import apap.tugas.tugas1.repository.JabatanRepository;
 
-public interface JabatanService extends BaseService<Jabatan, Long> {
+public interface JabatanService extends BaseService<JabatanRepository> {
 }

@@ -6,8 +6,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Function;
 
 @Entity
 @Table(name = "pegawai")
@@ -38,8 +39,12 @@ public class Pegawai extends AbstractEntity {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Instansi instansi;
 
-    @OneToMany(mappedBy = "pegawai", fetch = FetchType.EAGER)
-    private List<JabatanPegawai> jabatanPegawaiList;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "jabatan_pegawai",
+            joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id",  nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id",nullable = false))
+    private final Set<Jabatan> jabatans = new HashSet<>();
 
     public Pegawai() {}
 
@@ -84,10 +89,6 @@ public class Pegawai extends AbstractEntity {
         this.tanggalLahir = tanggalLahir;
     }
 
-    public void setJabatanPegawaiList(List<JabatanPegawai> jabatanPegawaiList) {
-        this.jabatanPegawaiList = jabatanPegawaiList;
-    }
-
     public String getTahunMasuk() {
         return tahunMasuk;
     }
@@ -104,8 +105,34 @@ public class Pegawai extends AbstractEntity {
         this.instansi = instansi;
     }
 
-    public List<JabatanPegawai> getJabatanPegawaiList() {
-        return jabatanPegawaiList;
+    public Set<Jabatan> getJabatans() {
+        return jabatans;
+    }
+
+    private Double getPersenTunjangan() {
+        return getInstansi().getProvinsi().getPresentaseTunjangan();
+    }
+
+    public Double getGaji() {
+        final Function<Double, Double> calculateGaji = (gajiPokok) ->
+                gajiPokok + (gajiPokok * getPersenTunjangan() * 0.01);
+
+        final Set<Jabatan> jabatans = getJabatans();
+
+        if(jabatans.isEmpty()) {
+            return .0;
+        } else if(jabatans.size() == 1) {
+            final Jabatan jabatan = jabatans.iterator().next();
+            System.out.println(calculateGaji.apply(jabatan.getGajiPokok()));
+            return calculateGaji.apply(jabatan.getGajiPokok());
+        } else {
+            double maxGajiPokok = .0;
+            for (Jabatan jabatan : jabatans) {
+                if(maxGajiPokok < jabatan.getGajiPokok())
+                    maxGajiPokok = jabatan.getGajiPokok();
+            }
+            return calculateGaji.apply(maxGajiPokok);
+        }
     }
 
     @Override
@@ -115,19 +142,5 @@ public class Pegawai extends AbstractEntity {
                 ", nip='" + nip + '\'' +
                 ", nama='" + nama + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pegawai pegawai = (Pegawai) o;
-        return getId() == pegawai.getId() &&
-                Objects.equals(getNip(), pegawai.getNip());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getNip());
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Controller
@@ -58,10 +59,45 @@ public class JabatanController {
 
         Jabatan jabatan = this.service.createJabatan(newJabatan);
 
-        model.addAttribute("message", new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
         model.addAttribute("newJabatan", new JabatanDC());
+        model.addAttribute("message", new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
 
         return "pages/CreateJabatanPage.html";
+    }
+
+    @GetMapping(value = "/jabatan/ubah")
+    public String retrieveUpdateJabatan(@RequestParam(value = "jabatanId") Long jabatanId, Model model) {
+        Optional<Jabatan> jabatan = this.service.getManager().findById(jabatanId);
+
+        if(jabatan.isPresent()) {
+            JabatanDC jabatanToUpdated = new JabatanDC();
+            jabatanToUpdated.transferFrom(jabatan.get());
+            model.addAttribute("jabatan", jabatanToUpdated);
+        } else {
+            // throw custom error
+            LOGGER.log(Level.INFO, () -> "Jabatan Not Found: " + jabatanId);
+        }
+
+        return "pages/UpdateJabatanPage.html";
+    }
+
+    @PostMapping(value = "/jabatan/ubah")
+    public String updateJabatan(@ModelAttribute JabatanDC jabatan,
+                                Model model,
+                                BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            //
+        }
+
+        this.service.updateJabatan(jabatan);
+
+        // todo: feedback message ga keluar karena redirect
+        model.addAttribute("message", new Message(
+                "Jabatan: " + jabatan.getNama(),
+                "Berhasil diubah!", Message.Type.SUCCESS));
+
+        return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
     }
 
 }

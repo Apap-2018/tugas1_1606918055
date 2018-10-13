@@ -9,4 +9,5 @@ public interface JabatanService extends BaseService<JabatanRepository> {
 
     Jabatan createJabatan(JabatanDC jabatanDC);
 
+    Jabatan updateJabatan(JabatanDC jabatanDC);
 }

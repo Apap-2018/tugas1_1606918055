@@ -5,6 +5,7 @@
 <body>
     <th:block th:fragment="jabatanForm(formId, formClass, formAction)">
         <form th:id="${formId}" th:classappend="${formClass}" th:action="${formAction}" method="post">
+            <input id="id" th:type="hidden" th:field="*{__${jabatan}__.id}" required>
             <div class="form-group">
                 <label for="nama">Nama</label>
                 <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{__${jabatan}__.nama}">

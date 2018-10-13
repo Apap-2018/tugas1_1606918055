@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Update Jabatan</title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-12">
+                <h1>Tambah Jabatan</h1>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body" th:include="~{components/Jabatan :: jabatanForm(formId='updateJabatan', formClass='', formAction=@{/jabatan/ubah(idJabatan=${jabatan.id})}, jabatan='jabatan')}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

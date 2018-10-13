@@ -18,14 +18,18 @@ public class PegawaiController {
 
     private static final Logger LOGGER = Logger.getLogger(PegawaiController.class.getName());
 
+    private PegawaiService service;
+
     @Autowired
     @Qualifier(value = "PegawaiServiceImpl")
-    private PegawaiService service;
+    public void setService(PegawaiService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/pegawai")
     public String pegawaiDetail(@RequestParam(value = "nip") String nip, Model model) {
         Optional<Pegawai> pegawai = service.getManager().findPegawaiByNip(nip);
-        LOGGER.log(Level.INFO, String.format("Search Pegawai By NIP: %s; Result: %s", nip, pegawai.toString()));
+        LOGGER.log(Level.INFO, () -> String.format("Search Pegawai By NIP: %s; Result: %s", nip, pegawai.toString()));
 
         if (!pegawai.isPresent()) {
             // throw custom exception

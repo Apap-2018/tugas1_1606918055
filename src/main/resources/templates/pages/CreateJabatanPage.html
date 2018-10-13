@@ -12,27 +12,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <form th:action="@{/jabatan/tambah}" method="post" th:object="${newJabatan}">
-                                <div class="form-group">
-                                    <label for="nama">Nama</label>
-                                    <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{nama}">
-                                    <small id="namaHelper" class="form-text text-muted">Masukan nama jabatan</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="deskripsi">Deskripsi</label>
-                                    <input id="deskripsi" type="text" required class="form-control" aria-describedby="deskripsiHelper" th:field="*{deskripsi}">
-                                    <small id="deskripsiHelper" class="form-text text-muted">Masukan deskripsi dari jabatan</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gajiPokok">Gaji Pokok</label>
-                                    <input id="gajiPokok" type="number" required class="form-control" aria-describedby="gajiPokokHelper" th:field="*{gajiPokok}">
-                                    <small id="gajiPokokHelper" class="form-text text-muted">Masukan gaji pokok</small>
-                                </div>
-                                <div class="form-group">
-                                    <button th:type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
+                        <div class="card-body" th:include="~{components/Jabatan :: jabatanForm(formId='createJabatan', formClass='',formAction=@{/jabatan/tambah}, jabatan='newJabatan')}">
                         </div>
                     </div>
                 </div>

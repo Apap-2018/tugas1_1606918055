@@ -5,7 +5,7 @@ import java.util.Objects;
 
 
 @MappedSuperclass
-public abstract class AbstractEntity  {
+public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

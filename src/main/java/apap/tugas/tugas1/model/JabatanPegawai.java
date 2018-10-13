@@ -19,7 +19,8 @@ public class JabatanPegawai extends AbstractEntity {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Jabatan jabatan;
 
-    public JabatanPegawai() {}
+    public JabatanPegawai() {
+    }
 
     public JabatanPegawai(Pegawai pegawai, Jabatan jabatan) {
         this.pegawai = pegawai;

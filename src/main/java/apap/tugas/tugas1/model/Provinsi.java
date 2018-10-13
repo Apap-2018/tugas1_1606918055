@@ -13,13 +13,14 @@ public class Provinsi extends AbstractEntity {
     private String nama;
 
     @NotNull
-    @Column(name="presentase_tunjangan", nullable = false)
+    @Column(name = "presentase_tunjangan", nullable = false)
     private double presentaseTunjangan;
 
     @OneToMany(mappedBy = "provinsi", fetch = FetchType.LAZY)
     private List<Instansi> instansiList;
 
-    public Provinsi() {}
+    public Provinsi() {
+    }
 
     public Provinsi(String nama, double presentaseTunjangan) {
         this.nama = nama;

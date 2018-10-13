@@ -20,14 +20,14 @@ public class PegawaiController {
 
     @Autowired
     @Qualifier(value = "PegawaiServiceImpl")
-    private PegawaiService mService;
+    private PegawaiService service;
 
     @GetMapping(value = "/pegawai")
-    public String pegawaiDetail(@RequestParam(value = "nip") String nip, Model model){
-        Optional<Pegawai> pegawai = mService.getManager().getPegawaiByNip(nip);
+    public String pegawaiDetail(@RequestParam(value = "nip") String nip, Model model) {
+        Optional<Pegawai> pegawai = service.getManager().findPegawaiByNip(nip);
         LOGGER.log(Level.INFO, String.format("Search Pegawai By NIP: %s; Result: %s", nip, pegawai.toString()));
 
-        if(!pegawai.isPresent()) {
+        if (!pegawai.isPresent()) {
             // throw custom exception
             return "redirect:/";
         }
@@ -35,5 +35,23 @@ public class PegawaiController {
         model.addAttribute("pegawai", pegawai.get());
         return "pages/PegawaiDetailPage.html";
     }
+
+//    @GetMapping(value = "/pegawai/cari")
+//    public String searchPegawai(@RequestParam(value = "idProvinsi", required = false) long idProvinsi,
+//                                @RequestParam(value = "idInstansi", required = false) long idInstansi,
+//                                @RequestParam(value = "idJabatan", required = false) long idJabatan,
+//                                Model model
+//    ) {
+//        Optional<Pegawai> pegawaies = service
+//                .getManager()
+//                .findPegawaiByProvinsiOrInstansiOrJabatan(idProvinsi, idInstansi, idJabatan);
+//
+//        if(pegawaies.isPresent()) {
+//            model.addAttribute("listOfPegawai", pegawaies);
+//        }
+//
+//        return "pages/PegawaiSearch.html";
+//    }
+
 
 }

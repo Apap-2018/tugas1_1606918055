@@ -42,11 +42,12 @@ public class Pegawai extends AbstractEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "jabatan_pegawai",
-            joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id",  nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id",nullable = false))
+            joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false))
     private final Set<Jabatan> jabatans = new HashSet<>();
 
-    public Pegawai() {}
+    public Pegawai() {
+    }
 
     public Pegawai(String nip, String nama, String tempatLahir, Date tanggalLahir, String tahunMasuk, Instansi instansi) {
         this.nip = nip;
@@ -119,16 +120,16 @@ public class Pegawai extends AbstractEntity {
 
         final Set<Jabatan> jabatans = getJabatans();
 
-        if(jabatans.isEmpty()) {
+        if (jabatans.isEmpty()) {
             return .0;
-        } else if(jabatans.size() == 1) {
+        } else if (jabatans.size() == 1) {
             final Jabatan jabatan = jabatans.iterator().next();
             System.out.println(calculateGaji.apply(jabatan.getGajiPokok()));
             return calculateGaji.apply(jabatan.getGajiPokok());
         } else {
             double maxGajiPokok = .0;
             for (Jabatan jabatan : jabatans) {
-                if(maxGajiPokok < jabatan.getGajiPokok())
+                if (maxGajiPokok < jabatan.getGajiPokok())
                     maxGajiPokok = jabatan.getGajiPokok();
             }
             return calculateGaji.apply(maxGajiPokok);

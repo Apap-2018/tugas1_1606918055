@@ -50,4 +50,10 @@ public class JabatanServiceImpl implements JabatanService {
 
         return j;
     }
+
+    @Override
+    public void deleteJabatan(JabatanDC jabatanDC) {
+        Long id = jabatanDC.getId();
+        this.repository.deleteById(id);
+    }
 }

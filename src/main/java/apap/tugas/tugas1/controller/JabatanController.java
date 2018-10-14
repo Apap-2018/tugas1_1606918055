@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 import java.util.logging.Level;
@@ -40,7 +41,10 @@ public class JabatanController {
             return "redirect:/";
         }
 
-        model.addAttribute("jabatan", jabatan.get());
+        JabatanDC jabatanDC = new JabatanDC();
+        jabatanDC.transferFrom(jabatan.get());
+
+        model.addAttribute("jabatan", jabatanDC);
         return "pages/JabatanDetailPage.html";
     }
 
@@ -60,14 +64,14 @@ public class JabatanController {
         Jabatan jabatan = this.service.createJabatan(newJabatan);
 
         model.addAttribute("newJabatan", new JabatanDC());
-        model.addAttribute("message", new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
+        model.addAttribute(Message.MESSAGE_NAME, new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
 
         return "pages/CreateJabatanPage.html";
     }
 
     @GetMapping(value = "/jabatan/ubah")
-    public String retrieveUpdateJabatan(@RequestParam(value = "jabatanId") Long jabatanId, Model model) {
-        Optional<Jabatan> jabatan = this.service.getManager().findById(jabatanId);
+    public String retrieveUpdateJabatan(@RequestParam(value = "idJabatan") Long idJabatan, Model model) {
+        Optional<Jabatan> jabatan = this.service.getManager().findById(idJabatan);
 
         if(jabatan.isPresent()) {
             JabatanDC jabatanToUpdated = new JabatanDC();
@@ -75,7 +79,7 @@ public class JabatanController {
             model.addAttribute("jabatan", jabatanToUpdated);
         } else {
             // throw custom error
-            LOGGER.log(Level.INFO, () -> "Jabatan Not Found: " + jabatanId);
+            LOGGER.log(Level.INFO, () -> "Jabatan Not Found: " + idJabatan);
         }
 
         return "pages/UpdateJabatanPage.html";
@@ -83,21 +87,54 @@ public class JabatanController {
 
     @PostMapping(value = "/jabatan/ubah")
     public String updateJabatan(@ModelAttribute JabatanDC jabatan,
-                                Model model,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult,
+                                RedirectAttributes redirect) {
+
+        Message message = new Message();
+        message.setTitle("Jabatan: " + jabatan.getNama());
 
         if(bindingResult.hasErrors()) {
-            //
+            message.setContent("Gagal mengubah, cek isian");
+            message.setType(Message.Type.DANGER);
+        } else {
+            this.service.updateJabatan(jabatan);
+            message.setContent("Berhasil diubah");
+            message.setType(Message.Type.SUCCESS);
         }
 
-        this.service.updateJabatan(jabatan);
 
-        // todo: feedback message ga keluar karena redirect
-        model.addAttribute("message", new Message(
-                "Jabatan: " + jabatan.getNama(),
-                "Berhasil diubah!", Message.Type.SUCCESS));
-
+        redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
         return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
     }
 
+    @PostMapping(value = "/jabatan/hapus")
+    public String deleteJabatan(@ModelAttribute JabatanDC jabatan,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirect) {
+
+        Message message = new Message();
+        message.setTitle("Jabatan: " + jabatan.getNama());
+
+        if(bindingResult.hasErrors()) {
+            message.setType(Message.Type.DANGER);
+            message.setContent("Gagal mengubah, cek isian");
+            redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
+            return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
+        }
+
+        try {
+            this.service.deleteJabatan(jabatan);
+            message.setContent("Berhasil terhapus");
+            message.setType(Message.Type.SUCCESS);
+        } catch (Exception e) {
+            message.setContent("Gagal menghapus, masih tedapat pegawai dengan jabatan " + jabatan.getNama());
+            message.setType(Message.Type.DANGER);
+            return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
+
+        } finally {
+            redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
+        }
+
+        return "redirect:/";
+    }
 }

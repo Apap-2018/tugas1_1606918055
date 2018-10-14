@@ -10,6 +10,8 @@ public class Message {
 
     private String type;
 
+    public static final String MESSAGE_NAME = "message";
+
     public enum Type {SUCCESS, DANGER, WARNING, INFO}
 
     public Message(String title, String content, Type type) {
@@ -18,10 +20,12 @@ public class Message {
         this.type = getType(type);
     }
 
+    public Message() {
+        this("", "", Type.INFO);
+    }
+
     public Message(String title, String content) {
-        this.title = title;
-        this.content = content;
-        this.type = getType(INFO);
+        this(title, content, Type.INFO);
     }
 
     private String getType(Type t) {
@@ -49,5 +53,17 @@ public class Message {
 
     public String getContent() {
         return content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setType(Type t) {
+        this.type = getType(t);
     }
 }

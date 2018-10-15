@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
     <title id="page-title">Home</title>
+    <link th:fragment="cssFragment" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
 </head>
 <body>
 <div id="Content" class="container-full-bg">
@@ -36,11 +37,12 @@
                             <div class="card-body">
                                 <h2>Lihat Detail Jabatan</h2>
                                 <form th:method="GET" th:action="@{/jabatan}">
-                                    <div class="form-group">
+                                    <div class="form-group row-fluid">
                                         <label for="jabatanInput">Pilih Jabatan</label>
-                                        <select class="form-control custom-select" id="jabatanInput" name="id" required>
+                                        <select class="form-control selectpicker" id="jabatanInput" name="id" required
+                                                data-show-subtext="true" data-live-search="true">
                                             <th:block th:each="jabatan : ${jabatanList}">
-                                                <option th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+                                                <option th:value="${jabatan.id}" th:text="${jabatan.nama}" th:attr="data-subtext=${jabatan.nama}"></option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -54,9 +56,11 @@
                                 <form th:method="GET" th:action="@{/pegawai/termuda-tertua}">
                                     <div class="form-group">
                                         <label for="instansiInput">Pilih Instansi</label>
-                                        <select class="form-control custom-select" id="instansiInput" name="idInstansi" required aria-describedby="instansiInputHelper">
+                                        <select class="form-control custom-select" id="instansiInput" name="idInstansi"
+                                                required aria-describedby="instansiInputHelper"
+                                                data-show-subtext="true" data-live-search="true">
                                             <th:block th:each="instansi : ${instansiList}">
-                                                <option th:value="${instansi.id}" th:text="${instansi.nama}"></option>
+                                                <option th:value="${instansi.id}" th:text="${instansi.nama}" th:attr="data-subtext=${instansi.nama}"></option>
                                             </th:block>
                                         </select>
                                         <small id="instansiInputHelper" class="form-text text-muted">Cari pegawai tertua dan termuda berdasarkan instansi</small>
@@ -71,5 +75,13 @@
         </div>
     </div>
 </div>
+<th:block th:fragment="jsFragment">
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select').selectpicker();
+        })
+    </script>
+</th:block>
 </body>
 </html>

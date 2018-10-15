@@ -6,18 +6,19 @@
 - thymeleaf
 
 ## features
-    [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
-    [ ] [12] ​Menambahkan Pegawai di Suatu Instansi
-    [ ] [12] ​Mengubah Data Pegawai
-    [ ] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
-    [x] [7] ​ Menambahkan Jabatan    
-    [x] [7] ​ Menampilkan Data Jabatan    
-    [x] [7] ​ Mengubah Data Jabatan
-    [x] [10] ​Menghapus Jabatan    
-    [ ] [5] ​ Menampilkan Daftar Jabatan
-    [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
-    [ ] [10] aspek sistem interaksi
-    [ ] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
+    1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
+    2  [ ] [12] ​Menambahkan Pegawai di Suatu Instansi
+    3  [ ] [12] ​Mengubah Data Pegawai
+    4  [ ] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
+    5  [x] [7] ​ Menambahkan Jabatan    
+    6  [x] [7] ​ Menampilkan Data Jabatan    
+    7  [x] [7] ​ Mengubah Data Jabatan
+    8  [x] [10] ​Menghapus Jabatan    
+    9  [ ] [5] ​ Menampilkan Daftar Jabatan
+    10 [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
+    11 [ ] [10] aspek sistem interaksi
+    12 [ ] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
+                 - di fitur yang manampilkan daftar jabatan
 
 ## issues tracker
     [x] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId

@@ -12,7 +12,7 @@
             </div>
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body" th:include="~{components/Jabatan :: jabatanForm(formId='updateJabatan', formClass='', formAction=@{/jabatan/ubah(idJabatan=${jabatan.id})}, jabatan='jabatan')}">
+                    <div class="card-body" th:include="~{components/Jabatan :: jabatanForm(formId='updateJabatan', formClass='', formAction=@{/jabatan/ubah(idJabatan=${jabatan.id})}, jabatanBeanName='jabatan')}">
                     </div>
                 </div>
             </div>

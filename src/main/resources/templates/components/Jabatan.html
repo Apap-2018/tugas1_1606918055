@@ -3,22 +3,22 @@
 <head>
 </head>
 <body>
-    <th:block th:fragment="jabatanForm(formId, formClass, formAction)">
-        <form th:id="${formId}" th:classappend="${formClass}" th:action="${formAction}" method="post">
-            <input id="id" th:type="hidden" th:field="*{__${jabatan}__.id}" required>
+    <th:block th:fragment="jabatanForm(formId, formClass, formAction, jabatanBeanName)">
+        <form th:id="${formId}" th:classappend="${formClass}" th:action="${formAction}" method="post" th:object="${__${jabatanBeanName}__}">
+            <input id="id" th:type="hidden" th:field="*{id}" required>
             <div class="form-group">
                 <label for="nama">Nama</label>
-                <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{__${jabatan}__.nama}">
+                <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{nama}">
                 <small id="namaHelper" class="form-text text-muted">Masukan nama jabatan</small>
             </div>
             <div class="form-group">
                 <label for="deskripsi">Deskripsi</label>
-                <input id="deskripsi" type="text" required class="form-control" aria-describedby="deskripsiHelper" th:field="*{__${jabatan}__.deskripsi}">
+                <input id="deskripsi" type="text" required class="form-control" aria-describedby="deskripsiHelper" th:field="*{deskripsi}">
                 <small id="deskripsiHelper" class="form-text text-muted">Masukan deskripsi dari jabatan</small>
             </div>
             <div class="form-group">
                 <label for="gajiPokok">Gaji Pokok</label>
-                <input id="gajiPokok" type="number" required class="form-control" aria-describedby="gajiPokokHelper" th:field="*{__${jabatan}__.gajiPokok}">
+                <input id="gajiPokok" type="number" required class="form-control" aria-describedby="gajiPokokHelper" th:field="*{gajiPokok}">
                 <small id="gajiPokokHelper" class="form-text text-muted">Masukan gaji pokok</small>
             </div>
             <div class="form-group">

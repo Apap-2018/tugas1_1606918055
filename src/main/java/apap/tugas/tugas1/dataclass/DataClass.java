@@ -4,5 +4,4 @@ public interface DataClass<E> {
 
     void transferFrom(E e);
 
-    E transferTo(E e);
 }

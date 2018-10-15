@@ -17,15 +17,6 @@ public class JabatanDC implements DataClass<Jabatan> {
         this.setGajiPokok(jabatan.getGajiPokok());
     }
 
-    @Override
-    public Jabatan transferTo(Jabatan jabatan) {
-        jabatan.setNama(this.getNama());
-        jabatan.setDeskripsi(this.getDeskripsi());
-        jabatan.setGajiPokok(this.getGajiPokok());
-
-        return jabatan;
-    }
-
     public Long getId() {
         return id;
     }

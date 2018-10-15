@@ -19,5 +19,5 @@
 
 
 ## issues tracker
-    [ ] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId
-    [ ] refactor: jabatanName di form ganti jadi jabatanBeanName
+    [x] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId
+    [x] refactor: jabatanName di form ganti jadi jabatanBeanName

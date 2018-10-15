@@ -104,7 +104,7 @@ public class JabatanController {
 
 
         redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
-        return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
+        return String.format("redirect:/jabatan/ubah?idJabatan=%d", jabatan.getId());
     }
 
     @PostMapping(value = "/jabatan/hapus")

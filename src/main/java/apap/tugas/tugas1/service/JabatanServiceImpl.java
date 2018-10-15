@@ -44,7 +44,10 @@ public class JabatanServiceImpl implements JabatanService {
 
         Jabatan j = null;
         if(jOption.isPresent()) {
-            j = jabatanDC.transferTo(jOption.get());
+            j = jOption.get();
+            j.setNama(jabatanDC.getNama());
+            j.setDeskripsi(jabatanDC.getDeskripsi());
+            j.setGajiPokok(jabatanDC.getGajiPokok());
             this.repository.save(j);
         }
 

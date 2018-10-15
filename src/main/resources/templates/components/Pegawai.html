@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
 </head>
 <body>
-$END$
+<th:block th:fragment="pegawaiDetail(pegawaiBeanName)">
+    <div class="card">
+        <th:block th:if="${__${pegawaiBeanName}__ != null}" th:object="${__${pegawaiBeanName}__}">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>NIP</strong>
+                    <div th:text="*{nip}"></div>
+                </li>
+                <li class="list-group-item">
+                    <strong>Nama</strong>
+                    <div th:text="*{nama}"></div></li>
+                <li class="list-group-item">
+                    <strong>Tempat Lahir</strong>
+                    <div th:text="*{tempatLahir}"></div>
+                </li>
+                <li class="list-group-item">
+                    <strong>Tanggal Lahir</strong>
+                    <div th:text="*{tanggalLahir}"></div>
+                </li>
+                <li class="list-group-item">
+                    <strong>Tahun Masuk</strong>
+                    <div th:text="*{tahunMasuk}"></div>
+                </li>
+                <li class="list-group-item">
+                    <strong>Jabatan</strong>
+                    <ul>
+                        <li th:each="jabatan : *{jabatans}">
+                            <div th:text="${jabatan.getNama()}"></div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <strong>Gaji</strong>
+                    <div th:text="'Rp' + *{#numbers.formatInteger(getGaji(), 0)}"></div>
+                </li>
+            </ul>
+            <div class="card-body">
+                <a th:href="@{/}" class="btn btn-primary">Ubah</a>
+            </div>
+        </th:block>
+        <div class="card-body" th:unless="${__${pegawaiBeanName}__ != null}">
+            <div class="card-text">
+                No Data
+            </div>
+        </div>
+    </div>
+</th:block>
 </body>
 </html>

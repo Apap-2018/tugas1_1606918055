@@ -13,7 +13,7 @@
                     <h3>Selamat Datang di Sistem Informasi Kepegawaian</h3>
                 </div>
                 <hr>
-                <div class="col-12 my-5">
+                <div class="col-12">
                     <div class="card-column">
                         <div class="card mt-3">
                             <div class="card-body">
@@ -39,11 +39,27 @@
                                     <div class="form-group">
                                         <label for="jabatanInput">Pilih Jabatan</label>
                                         <select class="form-control custom-select" id="jabatanInput" name="id" required>
-                                            <option selected disabled>Pilih Jabatan</option>
                                             <th:block th:each="jabatan : ${jabatanList}">
                                                 <option th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
                                             </th:block>
                                         </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Lihat</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h2>Lihat Pegawai Tertua dan Termuda</h2>
+                                <form th:method="GET" th:action="@{/pegawai/termuda-tertua}">
+                                    <div class="form-group">
+                                        <label for="instansiInput">Pilih Instansi</label>
+                                        <select class="form-control custom-select" id="instansiInput" name="idInstansi" required aria-describedby="instansiInputHelper">
+                                            <th:block th:each="instansi : ${instansiList}">
+                                                <option th:value="${instansi.id}" th:text="${instansi.nama}"></option>
+                                            </th:block>
+                                        </select>
+                                        <small id="instansiInputHelper" class="form-text text-muted">Cari pegawai tertua dan termuda berdasarkan instansi</small>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Lihat</button>
                                 </form>

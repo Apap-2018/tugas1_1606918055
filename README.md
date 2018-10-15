@@ -15,8 +15,9 @@
     [x] [7] ​ Mengubah Data Jabatan
     [x] [10] ​Menghapus Jabatan    
     [ ] [5] ​ Menampilkan Daftar Jabatan
-    [ ] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
-
+    [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
+    [ ] [10] aspek sistem interaksi
+    [ ] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
 
 ## issues tracker
     [x] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId

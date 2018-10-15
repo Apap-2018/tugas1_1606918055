@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title" th:text="'Detail Pegawai - ' + ${pegawai.getNama()}"></title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <div class="row">
+            <div class="col-6">
+                <h1>Data Pegawai Termuda</h1>
+                <div class="my-5" th:include="~{components/Pegawai :: pegawaiDetail(pegawaiBeanName='youngest')}">
+                </div>
+            </div>
+            <div class="col-6">
+                <h1>Data Pegawai Tertua</h1>
+                <div class="my-5" th:include="~{components/Pegawai :: pegawaiDetail(pegawaiBeanName='oldest')}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -40,7 +40,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a th:href="@{/pegawai/ubah(nip=${pegawai.nip})}" class="btn btn-primary">Ubah</a>
+                <a th:href="@{/pegawai/ubah(nip=*{nip})}" class="btn btn-secondary">Ubah</a>
             </div>
         </th:block>
         <div class="card-body" th:unless="${__${pegawaiBeanName}__ != null}">
@@ -106,7 +106,6 @@
         window.addEventListener("load", function() {
             const filterInstansiOptions = function(idProvinsi) {
                 const instansiSelect = document.getElementById("instansi");
-                instansiSelect.getElementsByTagName('option');
                 Array.prototype.forEach.call(instansiSelect.children, (item) => {
                     if(item.getAttribute('data-provinsi') === idProvinsi) {
                         $(item).show();

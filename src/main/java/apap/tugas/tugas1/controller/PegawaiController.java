@@ -160,6 +160,7 @@ public class PegawaiController {
             pegawai = this.pegawaiService.updatePegawai(pegawaiDC);
             message.setContent("Pegawai " + pegawai.getNama() + " berhasil diubah");
             message.setType(Message.Type.SUCCESS);
+            LOGGER.log(Level.INFO, "Pegawai save -> " + pegawai.toString());
         }
 
         redirect.addFlashAttribute(Message.MESSAGE_NAME, message);

@@ -61,12 +61,14 @@ public class PegawaiServiceImpl implements PegawaiService {
         tanggalLahirDigit = (month < 10 ? "0" + month : month) + tanggalLahirDigit;
         tanggalLahirDigit = (day < 10 ? "0" + day : day) + tanggalLahirDigit;
 
-        Integer totalPegawaiByTahunMasuk = this.pegawaiRepository.countPegawaiByTahunMasuk(pegawai.getTahunMasuk());
+        String nipPegawaiWithoutSequence = instansiDigit + tanggalLahirDigit + pegawai.getTahunMasuk();
+
+        int totalPegawaiByTahunMasuk = this.pegawaiRepository.countPegawaiByNipStartingWith(nipPegawaiWithoutSequence) + 1;
         String seqDigit = totalPegawaiByTahunMasuk < 10 ?
                 "0" + totalPegawaiByTahunMasuk :
                 Integer.toString(totalPegawaiByTahunMasuk);
 
-        return instansiDigit + tanggalLahirDigit + pegawai.getTahunMasuk() + seqDigit;
+        return  nipPegawaiWithoutSequence + seqDigit;
     }
 
     @Override
@@ -78,8 +80,16 @@ public class PegawaiServiceImpl implements PegawaiService {
     }
 
     @Override
-    public void savePegawaiFromDataClass(Pegawai pegawai, PegawaiDC pegawaiDC) {
+    public Boolean isNeedNewNip(Pegawai pegawai, PegawaiDC pegawaiDC) {
+        return !pegawai.getTanggalLahir().equals(pegawaiDC.getTanggalLahir())
+                || !pegawai.getTahunMasuk().equals(pegawaiDC.getTahunMasuk())
+                || pegawai.getInstansi().getId() != pegawaiDC.getInstansi().getId();
+    }
+
+    @Override
+    public void savePegawaiFromDataClass(Pegawai pegawai, PegawaiDC pegawaiDC, PegawaiCRUD pegawaiCRUD) {
         Instansi instansi = this.instansiService.getManager().getOne(pegawaiDC.getInstansi().getId());
+        boolean isPegawaiNeedNewNip = pegawaiCRUD == PegawaiCRUD.CREATE || this.isNeedNewNip(pegawai, pegawaiDC);
 
         // todo: implementasi NIP yang bener berdasarkan data
         pegawai.setNama(pegawaiDC.getNama());
@@ -88,10 +98,11 @@ public class PegawaiServiceImpl implements PegawaiService {
         pegawai.setTanggalLahir(pegawaiDC.getTanggalLahir());
         pegawai.setInstansi(instansi);
 
+        if(isPegawaiNeedNewNip) {
+            pegawai.setNip(this.generateNipForPegawai(pegawai));
+        }
+
         // todo: implementasi jabatan di form
-
-        pegawai.setNip(this.generateNipForPegawai(pegawai));
-
         this.pegawaiRepository.save(pegawai);
     }
 
@@ -99,7 +110,7 @@ public class PegawaiServiceImpl implements PegawaiService {
     public Pegawai createPegawai(PegawaiDC pegawaiDC) {
 
         Pegawai p = new Pegawai();
-        this.savePegawaiFromDataClass(p, pegawaiDC);
+        this.savePegawaiFromDataClass(p, pegawaiDC, PegawaiCRUD.CREATE);
 
         // todo delete this: this is just filling for null constaint
         p.getJabatans().add(jabatanService.getManager().getOne((long) 1));
@@ -111,7 +122,7 @@ public class PegawaiServiceImpl implements PegawaiService {
     @Override
     public Pegawai updatePegawai(PegawaiDC pegawaiDC) {
         Pegawai pegawai = this.pegawaiRepository.getOne(pegawaiDC.getId());
-        this.savePegawaiFromDataClass(pegawai, pegawaiDC);
+        this.savePegawaiFromDataClass(pegawai, pegawaiDC, PegawaiCRUD.UPDATE);
         return pegawai;
     }
 }

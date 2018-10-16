@@ -8,9 +8,7 @@
 ## features
     1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
     2  [x] [12] ​Menambahkan Pegawai di Suatu Instansi
-                   - form kurang jabatan
-                   - service belum implementasi jabatan dan NIP
-    3  [ ] [12] ​Mengubah Data Pegawai
+    3  [x] [12] ​Mengubah Data Pegawai
     4  [ ] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
     5  [x] [7] ​ Menambahkan Jabatan    
     6  [x] [7] ​ Menampilkan Data Jabatan    
@@ -28,5 +26,7 @@
     [ ] bug: auto increament di hibernate gak jalan dia ga mulai dari id terakhir yang ada di db
             - solution 1:
                 reset data db -> pasti bisa
+                tapi data ilang
             - solution 2:
                 mungkin asdos tau
+    [ ] form untuk pegawai kurang jabatan

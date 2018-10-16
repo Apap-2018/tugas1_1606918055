@@ -12,13 +12,17 @@ public interface PegawaiService extends BaseService<PegawaiRepository> {
 
     String YOUNGEST_PEGAWAI = "youngest";
 
+    enum PegawaiCRUD {CREATE, UPDATE}
+
     Map<String, Pegawai> getOldestAndYoungestPegawaiByInstansi(Long idInstansi);
 
-    void savePegawaiFromDataClass(Pegawai pegawai, PegawaiDC pegawaiDC);
+    void savePegawaiFromDataClass(Pegawai pegawai, PegawaiDC pegawaiDC, PegawaiCRUD pegawaiCRUD);
 
     Pegawai createPegawai(PegawaiDC pegawaiDC);
 
     Pegawai updatePegawai(PegawaiDC pegawaiDC);
 
     String generateNipForPegawai(Pegawai pegawai);
+
+    Boolean isNeedNewNip(Pegawai pegawai, PegawaiDC pegawaiDC);
 }

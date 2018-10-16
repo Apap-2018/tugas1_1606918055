@@ -14,7 +14,7 @@
     6  [x] [7] ​ Menampilkan Data Jabatan    
     7  [x] [7] ​ Mengubah Data Jabatan
     8  [x] [10] ​Menghapus Jabatan    
-    9  [ ] [5] ​ Menampilkan Daftar Jabatan
+    9  [x] [5] ​ Menampilkan Daftar Jabatan
     10 [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
     11 [ ] [10] aspek sistem interaksi
     12 [ ] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan

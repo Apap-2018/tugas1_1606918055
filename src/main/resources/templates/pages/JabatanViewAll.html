@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Lihat Semua Jabatan</title>
+    <th:block th:fragment="cssFragment">
+        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    </th:block>
+</head>
+<body>
+<div id="Content">
+    <div class="container-full-bg jumbotron pmx-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>Lihat Semua Jabatan</h1>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="jabatanTable" class="table table-striped table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Deskripsi</th>
+                                    <th scope="col">Gaji Pokok</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="jabatan : ${jabatanList}" th:object="${jabatan}">
+                                    <td th:text="*{nama}"></td>
+                                    <td th:text="*{deskripsi}"></td>
+                                    <td th:text="'Rp'+ *{gajiPokok}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:fragment="jsFragment">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function() {
+            $('#jabatanTable').DataTable();
+        })
+    </script>
+</th:block>
+</body>
+</html>

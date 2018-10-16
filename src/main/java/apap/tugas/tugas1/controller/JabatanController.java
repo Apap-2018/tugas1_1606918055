@@ -137,4 +137,10 @@ public class JabatanController {
 
         return "redirect:/";
     }
+
+    @GetMapping(value = "/jabatan/viewall")
+    public String retrieveViewAllJabatan(Model model) {
+        model.addAttribute("jabatanList", this.service.getManager().findAll());
+        return "pages/JabatanViewAll.html";
+    }
 }

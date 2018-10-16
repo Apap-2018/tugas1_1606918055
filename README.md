@@ -7,7 +7,9 @@
 
 ## features
     1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
-    2  [ ] [12] ​Menambahkan Pegawai di Suatu Instansi
+    2  [x] [12] ​Menambahkan Pegawai di Suatu Instansi
+                   - form kurang jabatan
+                   - service belum implementasi jabatan dan NIP
     3  [ ] [12] ​Mengubah Data Pegawai
     4  [ ] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
     5  [x] [7] ​ Menambahkan Jabatan    
@@ -23,3 +25,8 @@
 ## issues tracker
     [x] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId
     [x] refactor: jabatanName di form ganti jadi jabatanBeanName
+    [ ] bug: auto increament di hibernate gak jalan dia ga mulai dari id terakhir yang ada di db
+            - solution 1:
+                reset data db -> pasti bisa
+            - solution 2:
+                mungkin asdos tau

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Tambah Pegawai</title>
+    <link th:fragment="cssFragment" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-12">
+                <h1>Tambah Pegawai</h1>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body"
+                         th:include="~{components/Pegawai :: pegawaiForm(formId='createPegawai', formClass='',formAction=@{/pegawai/tambah}, pegawaiBeanName='newPegawai')}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:fragment="jsFragment">
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#provinsi').selectpicker();
+        })
+    </script>
+</th:block>
+</body>
+</html>

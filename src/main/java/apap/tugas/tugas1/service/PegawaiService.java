@@ -1,5 +1,6 @@
 package apap.tugas.tugas1.service;
 
+import apap.tugas.tugas1.dataclass.PegawaiDC;
 import apap.tugas.tugas1.model.Pegawai;
 import apap.tugas.tugas1.repository.PegawaiRepository;
 
@@ -12,4 +13,12 @@ public interface PegawaiService extends BaseService<PegawaiRepository> {
     String YOUNGEST_PEGAWAI = "youngest";
 
     Map<String, Pegawai> getOldestAndYoungestPegawaiByInstansi(Long idInstansi);
+
+    void savePegawaiFromDataClass(Pegawai pegawai, PegawaiDC pegawaiDC);
+
+    Pegawai createPegawai(PegawaiDC pegawaiDC);
+
+    Pegawai updatePegawai(PegawaiDC pegawaiDC);
+
+    String generateNipForPegawai(Pegawai pegawai);
 }

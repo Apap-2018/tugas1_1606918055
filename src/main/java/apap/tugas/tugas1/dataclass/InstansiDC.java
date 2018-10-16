@@ -4,6 +4,8 @@ import apap.tugas.tugas1.model.Instansi;
 
 public class InstansiDC implements DataClass<Instansi> {
 
+    private Long id;
+
     private String nama;
 
     private String deskripsi;
@@ -12,9 +14,18 @@ public class InstansiDC implements DataClass<Instansi> {
 
     @Override
     public void transferFrom(Instansi instansi) {
+        this.setId(instansi.getId());
         this.setNama(instansi.getNama());
         this.setDeskripsi(instansi.getDeskripsi());
         this.setProvinsi(DataClassFactory.createProvinsiData(instansi.getProvinsi()));
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNama() {

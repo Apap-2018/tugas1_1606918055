@@ -40,7 +40,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a th:href="@{/}" class="btn btn-primary">Ubah</a>
+                <a th:href="@{/pegawai/ubah(nip=${pegawai.nip})}" class="btn btn-primary">Ubah</a>
             </div>
         </th:block>
         <div class="card-body" th:unless="${__${pegawaiBeanName}__ != null}">
@@ -49,6 +49,82 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block th:fragment="pegawaiForm(formId, formClass, formAction, pegawaiBeanName)">
+    <form th:id="${formId}" th:classappend="${formClass}" th:action="${formAction}"
+          th:object="${__${pegawaiBeanName}__}" method="post">
+        <input id="id" th:type="hidden" th:field="*{id}" required>
+        <div class="form-group">
+            <label for="nama">Nama</label>
+            <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{nama}">
+            <small id="namaHelper" class="form-text text-muted">Masukan nama pegawai</small>
+        </div>
+        <div class="form-group">
+            <label for="tempatLahir">Tempat Lahir</label>
+            <input id="tempatLahir" type="text" required class="form-control" aria-describedby="tempatLahirHelper" th:field="*{tempatLahir}">
+            <small id="tempatLahirHelper" class="form-text text-muted">Masukan kota lahir pegawai</small>
+        </div>
+        <div class="form-group">
+            <label for="tanggalLahir">Tanggal Lahir</label>
+            <input id="tanggalLahir" type="date" required class="form-control" aria-describedby="tanggalLahirHelper" th:field="*{tanggalLahir}">
+            <small id="tanggalLahirHelper" class="form-text text-muted">Masukan tanggal lahir pegawai</small>
+        </div>
+        <div class="form-group">
+            <label for="tahunMasuk">Tahun Masuk</label>
+            <input id="tahunMasuk" type="number" required class="form-control" aria-describedby="tahunMasukHelper" th:field="*{tahunMasuk}">
+            <small id="tahunMasukHelper" class="form-text text-muted">Masukan tahun masuk</small>
+        </div>
+        <div class="form-group">
+            <label for="Provinsi">Provinsi</label>
+            <select th:field="*{instansi.provinsi.id}"
+                    class="form-control" id="provinsi"
+                    required aria-describedby="ProvinsiHelper"
+                    data-show-subtext="true" data-live-search="true">
+                <th:block th:each="provinsi : ${provinsiList}">
+                    <option th:value="${provinsi.id}" th:text="${provinsi.nama}" th:attr="data-subtext=${provinsi.nama}"
+                        th:selected="*{instansi.provinsi.id} == provinsi.id ? 'selected' : ''"
+                    ></option>
+                </th:block>
+            </select>
+            <small id="ProvinsiHelper" class="form-text text-muted">Filter Instansi berdasarkan provinsi</small>
+        </div>
+        <div class="form-group">
+            <label for="instansi">Nama Instansi</label>
+            <select class="form-control" id="instansi" th:field="*{instansi.id}" required aria-describedby="instansiHelper">
+                <th:block>
+                    <option th:each="selInstansi : ${instansiList}" th:value="${selInstansi.id}" th:text="${selInstansi.nama}"
+                            th:attr="data-provinsi=${selInstansi.provinsi.id}"></option>
+                </th:block>
+            </select>
+            <small id="instansiHelper" class="form-text text-muted">Pilih instansi tempat pegawai bekerja</small>
+        </div>
+        <div class="form-group">
+            <button th:type="submit" class="btn btn-primary btn-lg btn-block">Simpan</button>
+        </div>
+    </form>
+    <script type="text/javascript" th:inline="javascript">
+        window.addEventListener("load", function() {
+            const filterInstansiOptions = function(idProvinsi) {
+                const instansiSelect = document.getElementById("instansi");
+                instansiSelect.getElementsByTagName('option');
+                Array.prototype.forEach.call(instansiSelect.children, (item) => {
+                    if(item.getAttribute('data-provinsi') === idProvinsi) {
+                        $(item).show();
+                    } else {
+                        $(item).hide();
+                    }
+                })
+            };
+
+            const provinceSelect = document.getElementById("provinsi");
+            provinceSelect.addEventListener('change', ({ target }) => {
+                if(target) {
+                    filterInstansiOptions(target.value);
+                }
+            });
+            filterInstansiOptions(provinceSelect.value);
+        })
+    </script>
 </th:block>
 </body>
 </html>

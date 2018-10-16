@@ -10,6 +10,8 @@ import java.util.function.Function;
 
 public class PegawaiDC implements DataClass<Pegawai> {
 
+    private Long id;
+
     private String nip;
 
     private String nama;
@@ -28,6 +30,7 @@ public class PegawaiDC implements DataClass<Pegawai> {
 
     @Override
     public void transferFrom(Pegawai pegawai) {
+        this.setId(pegawai.getId());
         this.setNip(pegawai.getNip());
         this.setNama(pegawai.getNama());
         this.setTempatLahir(pegawai.getTempatLahir());
@@ -45,6 +48,14 @@ public class PegawaiDC implements DataClass<Pegawai> {
 
             return jbcs;
         };
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNip() {
@@ -96,10 +107,17 @@ public class PegawaiDC implements DataClass<Pegawai> {
     }
 
     public Set<JabatanDC> getJabatans() {
-        if(this.jabatans == null) {
-            this.jabatans = loadJabatans.apply(true);
+        if(this.jabatans == null && loadJabatans != null) {
+            this.setJabatans(loadJabatans.apply(true));
+        } else {
+            this.setJabatans(new HashSet<>());
         }
 
+        this.setJabatans(new HashSet<>());
         return this.jabatans;
+    }
+
+    public void setJabatans(Set<JabatanDC> jabatans) {
+        this.jabatans = jabatans;
     }
 }

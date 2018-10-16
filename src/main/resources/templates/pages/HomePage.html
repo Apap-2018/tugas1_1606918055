@@ -60,7 +60,7 @@
                                                 required aria-describedby="instansiInputHelper"
                                                 data-show-subtext="true" data-live-search="true">
                                             <th:block th:each="instansi : ${instansiList}">
-                                                <option th:value="${instansi.id}" th:text="${instansi.nama}" th:attr="data-subtext=${instansi.nama}"></option>
+                                                <option th:value="${instansi.id}" th:text="${instansi.nama}" th:attr="data-subtext=${instansi.nama + ' ' + instansi.provinsi.nama}"></option>
                                             </th:block>
                                         </select>
                                         <small id="instansiInputHelper" class="form-text text-muted">Cari pegawai tertua dan termuda berdasarkan instansi</small>

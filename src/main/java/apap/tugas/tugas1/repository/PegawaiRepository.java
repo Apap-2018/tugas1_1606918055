@@ -15,4 +15,6 @@ public interface PegawaiRepository extends JpaRepository<Pegawai, Long> {
 
     Optional<Pegawai> findFirstPegawaiByInstansiIdOrderByTanggalLahirDesc(Long idInstansi);
 
+    Integer countPegawaiByTahunMasuk(String tahunMasuk);
+
 }

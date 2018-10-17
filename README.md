@@ -23,7 +23,7 @@
 ## issues tracker
     [x] bug: url action mengubah data jabatan berubah dari idJabatan ganti jabatanId
     [x] refactor: jabatanName di form ganti jadi jabatanBeanName
-    [ ] bug: auto increament di hibernate gak jalan dia ga mulai dari id terakhir yang ada di db
+    [x] bug: auto increament di hibernate gak jalan dia ga mulai dari id terakhir yang ada di db
             - solution 1:
                 reset data db -> pasti bisa
                 tapi data ilang

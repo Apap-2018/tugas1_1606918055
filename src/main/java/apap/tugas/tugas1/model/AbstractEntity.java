@@ -8,7 +8,7 @@ import java.util.Objects;
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, updatable = false, nullable = false)
     protected long id;
 

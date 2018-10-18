@@ -80,21 +80,17 @@
                     class="form-control" id="provinsi"
                     required aria-describedby="ProvinsiHelper"
                     data-show-subtext="true" data-live-search="true">
-                <th:block th:each="provinsi : ${provinsiList}">
-                    <option th:value="${provinsi.id}" th:text="${provinsi.nama}" th:attr="data-subtext=${provinsi.nama}"
+                <option th:each="provinsi : ${provinsiList}" th:value="${provinsi.id}" th:text="${provinsi.nama}" th:attr="data-subtext=${provinsi.nama}"
                         th:selected="*{instansi.provinsi.id} == provinsi.id ? 'selected' : ''"
-                    ></option>
-                </th:block>
+                ></option>
             </select>
             <small id="ProvinsiHelper" class="form-text text-muted">Filter Instansi berdasarkan provinsi</small>
         </div>
         <div class="form-group">
             <label for="instansi">Nama Instansi</label>
             <select class="form-control" id="instansi" th:field="*{instansi.id}" required aria-describedby="instansiHelper">
-                <th:block>
-                    <option th:each="selInstansi : ${instansiList}" th:value="${selInstansi.id}" th:text="${selInstansi.nama}"
-                            th:attr="data-provinsi=${selInstansi.provinsi.id}"></option>
-                </th:block>
+                <option th:each="selInstansi : ${instansiList}" th:value="${selInstansi.id}" th:text="${selInstansi.nama}"
+                        th:attr="data-provinsi=${selInstansi.provinsi.id}"></option>
             </select>
             <small id="instansiHelper" class="form-text text-muted">Pilih instansi tempat pegawai bekerja</small>
         </div>

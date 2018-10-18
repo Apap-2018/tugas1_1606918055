@@ -4,10 +4,10 @@
     <title id="page-title" th:text="'Detail Pegawai - ' + ${pegawai.getNama()}"></title>
 </head>
 <body>
-<div id="Content" class="container-full-bg">
+<div id="Content" class="container-full-bg mb-5">
     <div class="container vertical-center" style="padding-top: 32px;">
-        <h1 th:text="'Lihat Data Pegawai - ' + ${pegawai.getNip()}"></h1>
-        <div class="my-5" th:include="~{components/Pegawai :: pegawaiDetail(pegawaiBeanName='pegawai')}">
+        <h1 th:text="'Pegawai - ' + ${pegawai.getNip()}"></h1>
+        <div th:include="~{components/Pegawai :: pegawaiDetail(pegawaiBeanName='pegawai')}">
         </div>
     </div>
 </div>

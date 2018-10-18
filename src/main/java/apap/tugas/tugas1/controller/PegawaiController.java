@@ -4,6 +4,7 @@ import apap.tugas.tugas1.dataclass.JabatanDC;
 import apap.tugas.tugas1.dataclass.PegawaiDC;
 import apap.tugas.tugas1.model.Pegawai;
 import apap.tugas.tugas1.service.InstansiService;
+import apap.tugas.tugas1.service.JabatanService;
 import apap.tugas.tugas1.service.PegawaiService;
 import apap.tugas.tugas1.service.ProvinsiService;
 import apap.tugas.tugas1.util.Message;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +37,8 @@ public class PegawaiController {
     private InstansiService instansiService;
 
     private ProvinsiService provinsiService;
+
+    private JabatanService jabatanService;
 
     @Autowired
     @Qualifier(value = "PegawaiServiceImpl")
@@ -52,9 +58,16 @@ public class PegawaiController {
         this.provinsiService = provinsiService;
     }
 
+    @Autowired
+    @Qualifier(value = "JabatanServiceImpl")
+    public void setJabatanService(JabatanService jabatanService) { this.jabatanService = jabatanService; }
+
     @GetMapping(value = "/pegawai")
-    public String pegawaiDetail(@RequestParam(value = "nip") String nip, Model model, RedirectAttributes redirect) {
-        Optional<Pegawai> pegawai = pegawaiService.getManager().findPegawaiByNip(nip);
+    public String pegawaiDetail(@RequestParam(value = "nip") final String nip,
+                                final Model model,
+                                final RedirectAttributes redirect) {
+
+        final Optional<Pegawai> pegawai = pegawaiService.getManager().findPegawaiByNip(nip);
         LOGGER.log(Level.INFO, () -> String.format("Search Pegawai By NIP: %s; Result: %s", nip, pegawai.toString()));
 
         if (!pegawai.isPresent()) {
@@ -68,9 +81,9 @@ public class PegawaiController {
     }
 
     @GetMapping(value = "/pegawai/termuda-tertua")
-    public String pegawaiTertuaTermudaDetail(@RequestParam(value = "idInstansi") Long idInstansi,
-                                             Model model,
-                                             RedirectAttributes redirect) {
+    public String pegawaiTertuaTermudaDetail(@RequestParam(value = "idInstansi") final Long idInstansi,
+                                             final Model model,
+                                             final RedirectAttributes redirect) {
         if(instansiService.getManager().existsById(idInstansi)) {
             model.addAllAttributes(this.pegawaiService.getOldestAndYoungestPegawaiByInstansi(idInstansi));
         } else {
@@ -84,7 +97,7 @@ public class PegawaiController {
 
     @GetMapping(value = "/pegawai/tambah")
     public String retrieveCreatePegawai(Model model) {
-        PegawaiDC pegawaiDC = new PegawaiDC();
+        final PegawaiDC pegawaiDC = new PegawaiDC();
         pegawaiDC.getJabatans().add(new JabatanDC());
         model.addAttribute("instansiList", instansiService.getManager().findAll());
         model.addAttribute("provinsiList", provinsiService.getManager().findAll());
@@ -93,9 +106,12 @@ public class PegawaiController {
     }
 
     @PostMapping(value = "/pegawai/tambah")
-    public String createPegawai(@ModelAttribute PegawaiDC pegawaiDC, BindingResult bindingResult, RedirectAttributes redirect) {
-        Message message = new Message();
-        message.setTitle("Pegawai");
+    public String createPegawai(@ModelAttribute final PegawaiDC pegawaiDC,
+                                final Model model,
+                                final BindingResult bindingResult,
+                                final RedirectAttributes redirect) {
+        final Message message = new Message();
+        message.setTitle(Pegawai.class.getSimpleName());
 
         if(bindingResult.hasErrors()) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -105,22 +121,26 @@ public class PegawaiController {
             }
             message.setContent(stringBuilder.toString());
             message.setType(Message.Type.DANGER);
-        } else {
-            Pegawai pegawai = this.pegawaiService.createPegawai(pegawaiDC);
-            message.setContent("Pegawai " + pegawai.getNama() + " berhasil disimpan");
-            message.setType(Message.Type.SUCCESS);
+
+            model.addAttribute("newPegawai", pegawaiDC);
+            model.addAttribute(Message.MESSAGE_NAME, message);
+            return "pages/CreatePegawaiPage.html";
         }
 
-        return "redirect:/pegawai/tambah";
+        Pegawai pegawai = this.pegawaiService.createPegawai(pegawaiDC);
+        message.setContent("Pegawai " + pegawai.getNama() + " berhasil disimpan");
+        message.setType(Message.Type.SUCCESS);
+        redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
+        return "redirect:/pegawai?nip=" + pegawai.getNip();
     }
 
     @GetMapping(value = "/pegawai/ubah")
-    public String retrieveUpdatePegawai(@RequestParam(value = "nip") String nip, Model model, RedirectAttributes redirectAttributes) {
+    public String retrieveUpdatePegawai(@RequestParam(value = "nip") final String nip, final Model model, final RedirectAttributes redirectAttributes) {
 
-        Optional<Pegawai> pegawaiOptional = pegawaiService.getManager().findPegawaiByNip(nip);
+        final Optional<Pegawai> pegawaiOptional = pegawaiService.getManager().findPegawaiByNip(nip);
 
-        Message message = new Message();
-        message.setTitle("Pegawai");
+        final Message message = new Message();
+        message.setTitle(Pegawai.class.getSimpleName());
         if(!pegawaiOptional.isPresent()) {
             // do something
             message.setType(Message.Type.WARNING);
@@ -129,7 +149,7 @@ public class PegawaiController {
             return "redirect:/";
         }
 
-        PegawaiDC pegawaiDC = new PegawaiDC();
+        final PegawaiDC pegawaiDC = new PegawaiDC();
         pegawaiDC.transferFrom(pegawaiOptional.get());
 
         model.addAttribute("instansiList", instansiService.getManager().findAll());
@@ -141,10 +161,12 @@ public class PegawaiController {
     }
 
     @PostMapping(value = "/pegawai/ubah")
-    public String updatePegawai(@ModelAttribute PegawaiDC pegawaiDC, BindingResult bindingResult, RedirectAttributes redirect) {
+    public String updatePegawai(@ModelAttribute final PegawaiDC pegawaiDC,
+                                final BindingResult bindingResult,
+                                final RedirectAttributes redirect) {
         Pegawai pegawai = null;
-        Message message = new Message();
-        message.setTitle("Pegawai");
+        final Message message = new Message();
+        message.setTitle(Pegawai.class.getSimpleName());
 
         if(bindingResult.hasErrors()) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -160,29 +182,41 @@ public class PegawaiController {
             pegawai = this.pegawaiService.updatePegawai(pegawaiDC);
             message.setContent("Pegawai " + pegawai.getNama() + " berhasil diubah");
             message.setType(Message.Type.SUCCESS);
-            LOGGER.log(Level.INFO, "Pegawai save -> " + pegawai.toString());
         }
 
         redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
         return "redirect:/pegawai/ubah?nip=" + pegawai.getNip();
     }
 
-//    @GetMapping(value = "/pegawai/cari")
-//    public String searchPegawai(@RequestParam(value = "idProvinsi", required = false) long idProvinsi,
-//                                @RequestParam(value = "idInstansi", required = false) long idInstansi,
-//                                @RequestParam(value = "idJabatan", required = false) long idJabatan,
-//                                Model model
-//    ) {
-//        Optional<Pegawai> pegawaies = pegawaiService
-//                .getManager()
-//                .findPegawaiByProvinsiOrInstansiOrJabatan(idProvinsi, idInstansi, idJabatan);
-//
-//        if(pegawaies.isPresent()) {
-//            model.addAttribute("listOfPegawai", pegawaies);
-//        }
-//
-//        return "pages/PegawaiSearch.html";
-//    }
+    @GetMapping(value = "/pegawai/cari")
+    public String searchPegawai(@RequestParam(value = "idProvinsi", required = false) final Long idProvinsi,
+                                @RequestParam(value = "idInstansi", required = false) final Long idInstansi,
+                                @RequestParam(value = "idJabatan", required = false) final Long idJabatan,
+                                Model model
+    ) {
+        LOGGER.log(Level.INFO, () -> idProvinsi + " " + idInstansi + " " + idJabatan + " ");
+
+        List<Pegawai> pegawaiList;
+        if(idProvinsi == null && idInstansi == null && idJabatan == null) {
+            pegawaiList = pegawaiService.getManager().findAll();
+        } else {
+            pegawaiList = pegawaiService.getManager()
+                    .findDistinctPegawaiByInstansiIdOrInstansi_ProvinsiIdOrJabatans_Id(idInstansi, idProvinsi, idJabatan);
+            final Message message = new Message();
+            message.setTitle(Pegawai.class.getSimpleName());
+            message.setContent(pegawaiList.size() + " berhasil ditemukan");
+            model.addAttribute(Message.MESSAGE_NAME, message);
+        }
+
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("pegawaiList", pegawaiList);
+        attributes.put("instansiList", this.instansiService.getManager().findAll());
+        attributes.put("provinsiList", this.provinsiService.getManager().findAll());
+        attributes.put("jabatanList", this.jabatanService.getManager().findAll());
+
+        model.addAllAttributes(attributes);
+        return "pages/PegawaiSearch.html";
+    }
 
 
 }

@@ -9,7 +9,7 @@
     1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
     2  [x] [12] ​Menambahkan Pegawai di Suatu Instansi
     3  [x] [12] ​Mengubah Data Pegawai
-    4  [ ] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
+    4  [x] [12] Menampilkan Data Pegawai Berdasarkan Instansi, Provinsi dan Jabatan tertentu 
     5  [x] [7] ​ Menambahkan Jabatan    
     6  [x] [7] ​ Menampilkan Data Jabatan    
     7  [x] [7] ​ Mengubah Data Jabatan

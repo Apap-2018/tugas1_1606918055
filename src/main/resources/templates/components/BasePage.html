@@ -12,7 +12,7 @@
 <body>
 <div th:replace="~{components/Header :: header}"></div>
 <div id="App">
-    <div th:if="${message != null}">
+    <div th:if="${message != null}" class="container" style="position: fixed; top: 64px; z-index: 99; left: 0; right: 0; max-width: 640px">
         <div th:object="${message}" class="alert alert-dismissible fade show" th:classappend="'alert-' + *{type}" role="alert">
             <strong th:text="*{title}"></strong>
             <p th:text="*{content}"></p>

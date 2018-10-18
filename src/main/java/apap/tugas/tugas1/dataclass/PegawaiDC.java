@@ -4,9 +4,10 @@ import apap.tugas.tugas1.model.Jabatan;
 import apap.tugas.tugas1.model.Pegawai;
 
 import java.sql.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class PegawaiDC implements DataClass<Pegawai> {
 
@@ -24,9 +25,9 @@ public class PegawaiDC implements DataClass<Pegawai> {
 
     private InstansiDC instansi;
 
-    private Set<JabatanDC> jabatans;
+    private List<JabatanDC> jabatans;
 
-    private Function<Boolean, Set<JabatanDC>> loadJabatans;
+    private Supplier<List<JabatanDC>> loadJabatans;
 
     @Override
     public void transferFrom(Pegawai pegawai) {
@@ -38,15 +39,16 @@ public class PegawaiDC implements DataClass<Pegawai> {
         this.setTahunMasuk(pegawai.getTahunMasuk());
         this.setInstansi(DataClassFactory.createInstansiData(pegawai.getInstansi()));
 
-        this.loadJabatans = (t) -> {
+        this.loadJabatans = () -> {
+            // lazy load
             Set<Jabatan> jbtns = pegawai.getJabatans();
-            Set<JabatanDC> jbcs = new HashSet<>();
+            List<JabatanDC> listDc = new ArrayList<>(jbtns.size());
 
             for (Jabatan j : jbtns) {
-                jbcs.add(DataClassFactory.createJabatanData(j));
+                listDc.add(DataClassFactory.createJabatanData(j));
             }
 
-            return jbcs;
+            return listDc;
         };
     }
 
@@ -106,18 +108,17 @@ public class PegawaiDC implements DataClass<Pegawai> {
         this.instansi = instansi;
     }
 
-    public Set<JabatanDC> getJabatans() {
+    public List<JabatanDC> getJabatans() {
         if(this.jabatans == null && loadJabatans != null) {
-            this.setJabatans(loadJabatans.apply(true));
+            this.setJabatans(loadJabatans.get());
         } else {
-            this.setJabatans(new HashSet<>());
+            this.setJabatans(new ArrayList<>());
         }
 
-        this.setJabatans(new HashSet<>());
         return this.jabatans;
     }
 
-    public void setJabatans(Set<JabatanDC> jabatans) {
+    public void setJabatans(List<JabatanDC> jabatans) {
         this.jabatans = jabatans;
     }
 }

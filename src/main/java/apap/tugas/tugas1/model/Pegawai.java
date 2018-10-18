@@ -124,7 +124,6 @@ public class Pegawai extends AbstractEntity {
             return .0;
         } else if (jabatans.size() == 1) {
             final Jabatan jabatan = jabatans.iterator().next();
-            System.out.println(calculateGaji.apply(jabatan.getGajiPokok()));
             return calculateGaji.apply(jabatan.getGajiPokok());
         } else {
             double maxGajiPokok = .0;

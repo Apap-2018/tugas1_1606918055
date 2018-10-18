@@ -39,11 +39,10 @@ public class Pegawai extends AbstractEntity {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Instansi instansi;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "jabatan_pegawai",
-            joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false))
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "jabatan_pegawai",
+               joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false),
+               inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false))
     private final Set<Jabatan> jabatans = new HashSet<>();
 
     public Pegawai() {

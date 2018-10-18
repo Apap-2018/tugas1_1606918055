@@ -8,6 +8,7 @@ public class JabatanDC implements DataClass<Jabatan> {
     private String nama;
     private String deskripsi;
     private Double gajiPokok;
+    private Integer numberOfPegawai;
 
     @Override
     public void transferFrom(Jabatan jabatan) {
@@ -15,6 +16,7 @@ public class JabatanDC implements DataClass<Jabatan> {
         this.setNama(jabatan.getNama());
         this.setDeskripsi(jabatan.getDeskripsi());
         this.setGajiPokok(jabatan.getGajiPokok());
+        this.setNumberOfPegawai(jabatan.getNumberOfPegawai());
     }
 
     public Long getId() {
@@ -47,5 +49,13 @@ public class JabatanDC implements DataClass<Jabatan> {
 
     public void setGajiPokok(Double gajiPokok) {
         this.gajiPokok = gajiPokok;
+    }
+
+    public Integer getNumberOfPegawai() {
+        return numberOfPegawai;
+    }
+
+    public void setNumberOfPegawai(Integer numberOfPegawai) {
+        this.numberOfPegawai = numberOfPegawai;
     }
 }

@@ -17,7 +17,7 @@
     9  [x] [5] ​ Menampilkan Daftar Jabatan
     10 [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
     11 [ ] [10] aspek sistem interaksi
-    12 [ ] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
+    12 [x] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
                  - di fitur yang manampilkan daftar jabatan
 
 ## issues tracker
@@ -29,4 +29,4 @@
                 tapi data ilang
             - solution 2:
                 mungkin asdos tau
-    [ ] form untuk pegawai kurang jabatan
+    [ ] todo: form untuk pegawai kurang jabatan

@@ -21,7 +21,10 @@ public class Jabatan extends AbstractEntity {
     @Column(name = "gaji_pokok", nullable = false)
     private double gajiPokok;
 
-    @OneToMany(mappedBy = "jabatan", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "jabatan_pegawai",
+            joinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false))
     private List<JabatanPegawai> pegawaiList;
 
     public Jabatan() {
@@ -59,6 +62,10 @@ public class Jabatan extends AbstractEntity {
 
     public List<JabatanPegawai> getPegawaiList() {
         return pegawaiList;
+    }
+
+    public Integer getNumberOfPegawai() {
+        return getPegawaiList().size();
     }
 
     @Override

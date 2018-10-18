@@ -24,6 +24,7 @@
                                     <th scope="col">Nama</th>
                                     <th scope="col">Deskripsi</th>
                                     <th scope="col">Gaji Pokok</th>
+                                    <th scope="col">Jumlah Pegawai</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -31,6 +32,7 @@
                                     <td th:text="*{nama}"></td>
                                     <td th:text="*{deskripsi}"></td>
                                     <td th:text="'Rp'+ *{gajiPokok}"></td>
+                                    <td th:text="*{numberOfPegawai}"></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -21,6 +21,10 @@
                         <strong>Gaji Pokok</strong>
                         <div th:text="'Rp' + ${jabatan.getGajiPokok()}"></div>
                     </li>
+                    <li class="list-group-item">
+                        <strong>Jumlah Pegawai</strong>
+                        <div th:text="${jabatan.getNumberOfPegawai()} + ' orang'"></div>
+                    </li>
                 </ul>
                 <div class="card-body">
                     <div class="row">

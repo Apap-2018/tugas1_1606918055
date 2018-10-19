@@ -1,46 +1,36 @@
 package apap.tugas.tugas1.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "jabatan_pegawai")
-public class JabatanPegawai extends AbstractEntity {
+@Table(name="jabatan_pegawai")
+public class JabatanPegawai {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Pegawai pegawai;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Jabatan jabatan;
-
-    public JabatanPegawai() {
+    public long getId() {
+        return id;
     }
 
-    public JabatanPegawai(Pegawai pegawai, Jabatan jabatan) {
-        this.pegawai = pegawai;
-        this.jabatan = jabatan;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractEntity)) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return getId() == that.getId();
     }
 
-    public Pegawai getPegawai() {
-        return pegawai;
-    }
-
-    public Jabatan getJabatan() {
-        return jabatan;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
-        return "JabatanPegawai{" +
-                "pegawai=" + pegawai +
-                ", jabatan=" + jabatan +
-                ", id=" + id +
-                '}';
+        return Long.toString(this.getId());
     }
+
 }

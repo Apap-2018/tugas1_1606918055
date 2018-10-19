@@ -39,11 +39,12 @@ public class Pegawai extends AbstractEntity {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Instansi instansi;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "jabatan_pegawai",
-               joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false),
-               inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false))
-    private final Set<Jabatan> jabatans = new HashSet<>();
+            joinColumns = { @JoinColumn(name = "id_pegawai") },
+            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
+    private Set<Jabatan> jabatans = new HashSet<>();
 
     public Pegawai() {
     }
@@ -137,7 +138,7 @@ public class Pegawai extends AbstractEntity {
     @Override
     public String toString() {
         return "Pegawai{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", nip='" + nip + '\'' +
                 ", nama='" + nama + '\'' +
                 '}';

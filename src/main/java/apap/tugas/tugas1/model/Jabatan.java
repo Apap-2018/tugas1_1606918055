@@ -2,8 +2,8 @@ package apap.tugas.tugas1.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "jabatan")
@@ -21,11 +21,10 @@ public class Jabatan extends AbstractEntity {
     @Column(name = "gaji_pokok", nullable = false)
     private double gajiPokok;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "jabatan_pegawai",
-            joinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id", nullable = false))
-    private List<JabatanPegawai> pegawaiList;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+            mappedBy = "jabatans", targetEntity = Pegawai.class)
+    private Set<JabatanPegawai> pegawais;
 
     public Jabatan() {
     }
@@ -60,19 +59,19 @@ public class Jabatan extends AbstractEntity {
         this.gajiPokok = gajiPokok;
     }
 
-    public List<JabatanPegawai> getPegawaiList() {
-        return pegawaiList;
+    public Set<JabatanPegawai> getPegawais() {
+        return pegawais;
     }
 
     public Integer getNumberOfPegawai() {
-        return getPegawaiList().size();
+        return getPegawais().size();
     }
 
     @Override
     public String toString() {
         return "Jabatan{" +
                 "nama='" + nama + '\'' +
-                ", id=" + id +
+                ", id=" + getId() +
                 '}';
     }
 

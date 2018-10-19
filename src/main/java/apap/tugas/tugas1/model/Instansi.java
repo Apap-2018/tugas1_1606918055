@@ -71,7 +71,7 @@ public class Instansi extends AbstractEntity {
         return "Instansi{" +
                 "nama='" + nama + '\'' +
                 ", provinsi='" + provinsi + '\'' +
-                ", id=" + id +
+                ", id=" + getId() +
                 '}';
     }
 }

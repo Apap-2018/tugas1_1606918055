@@ -37,7 +37,7 @@ public class PegawaiDC implements DataClass<Pegawai> {
         this.setTempatLahir(pegawai.getTempatLahir());
         this.setTanggalLahir(pegawai.getTanggalLahir());
         this.setTahunMasuk(pegawai.getTahunMasuk());
-        this.setInstansi(DataClassFactory.createInstansiData(pegawai.getInstansi()));
+        this.setInstansi(DataClassFactory.createInstansiDataFrom(pegawai.getInstansi()));
 
         this.loadJabatans = () -> {
             // lazy load
@@ -45,7 +45,7 @@ public class PegawaiDC implements DataClass<Pegawai> {
             List<JabatanDC> listDc = new ArrayList<>(jbtns.size());
 
             for (Jabatan j : jbtns) {
-                listDc.add(DataClassFactory.createJabatanData(j));
+                listDc.add(DataClassFactory.createJabatanDataFrom(j));
             }
 
             return listDc;
@@ -111,7 +111,7 @@ public class PegawaiDC implements DataClass<Pegawai> {
     public List<JabatanDC> getJabatans() {
         if(this.jabatans == null && loadJabatans != null) {
             this.setJabatans(loadJabatans.get());
-        } else {
+        } else if(this.jabatans == null) {
             this.setJabatans(new ArrayList<>());
         }
 

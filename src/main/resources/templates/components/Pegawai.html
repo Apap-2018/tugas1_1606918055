@@ -98,7 +98,26 @@
             <small id="instansiHelper" class="form-text text-muted">Pilih instansi tempat pegawai bekerja</small>
         </div>
         <div class="form-group">
-            <button th:type="submit" class="btn btn-primary btn-lg btn-block">Simpan</button>
+            <div style="display: block">
+                <label>Jabatan</label>
+            </div>
+            <small>Pilih minimal satu jabatan atau lebih</small>
+            <select th:each="jabatan, jabatanStats : *{jabatans}" th:id="'jabatan-' + ${jabatanStats.index}"
+                    th:field="*{jabatans[__${jabatanStats.index}__].id}" class="form-control selectpicker mb-2"
+                    data-show-subtext="true" data-live-search="true">
+                <option th:each="jOpt : ${jabatanList}" th:value="${jOpt.id}" th:text="${jOpt.nama}"
+                        th:attr="data-subtext=${jOpt.nama}"></option>
+            </select>
+            <button type="submit" class="btn btn-outline-secondary btn-sm" name="j">
+                <span class="oi oi-plus" title="tambah" aria-hidden="true"></span>
+                Tambah jabatan lainnya
+            </button>
+        </div>
+        <div class="form-group">
+            <button type="submit" name="save" class="btn btn-primary btn-lg btn-block">
+                Simpan
+                <span class="oi oi-check"></span>
+            </button>
         </div>
     </form>
     <script type="text/javascript" th:inline="javascript">

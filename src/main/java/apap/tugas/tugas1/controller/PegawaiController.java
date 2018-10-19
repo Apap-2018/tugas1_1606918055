@@ -1,5 +1,6 @@
 package apap.tugas.tugas1.controller;
 
+import apap.tugas.tugas1.dataclass.DataClassFactory;
 import apap.tugas.tugas1.dataclass.JabatanDC;
 import apap.tugas.tugas1.dataclass.PegawaiDC;
 import apap.tugas.tugas1.model.Pegawai;
@@ -20,10 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,15 +95,30 @@ public class PegawaiController {
 
     @GetMapping(value = "/pegawai/tambah")
     public String retrieveCreatePegawai(Model model) {
-        final PegawaiDC pegawaiDC = new PegawaiDC();
-        pegawaiDC.getJabatans().add(new JabatanDC());
-        model.addAttribute("instansiList", instansiService.getManager().findAll());
-        model.addAttribute("provinsiList", provinsiService.getManager().findAll());
-        model.addAttribute("newPegawai", pegawaiDC);
+        model.addAllAttributes(pegawaiService.getFormOption());
+        model.addAttribute("newPegawai", DataClassFactory.createPegawaiDataForForm());
         return "pages/CreatePegawaiPage.html";
     }
 
-    @PostMapping(value = "/pegawai/tambah")
+    @PostMapping(value = "/pegawai/tambah", params = { "j" })
+    public String addMoreJabatan(@ModelAttribute PegawaiDC newPegawai,
+                                 final Model model,
+                                 final BindingResult bindingResult) {
+
+        if(newPegawai.getJabatans() == null) {
+            List<JabatanDC> jabatanDCList = new ArrayList<>();
+            jabatanDCList.add(new JabatanDC());
+            newPegawai.setJabatans(jabatanDCList);
+        } else {
+            newPegawai.getJabatans().add(new JabatanDC());
+        }
+
+        model.addAllAttributes(pegawaiService.getFormOption());
+        model.addAttribute("newPegawai", newPegawai);
+        return "pages/CreatePegawaiPage.html";
+    }
+
+    @PostMapping(value = "/pegawai/tambah", params = { "save" })
     public String createPegawai(@ModelAttribute final PegawaiDC pegawaiDC,
                                 final Model model,
                                 final BindingResult bindingResult,
@@ -135,32 +148,44 @@ public class PegawaiController {
     }
 
     @GetMapping(value = "/pegawai/ubah")
-    public String retrieveUpdatePegawai(@RequestParam(value = "nip") final String nip, final Model model, final RedirectAttributes redirectAttributes) {
-
+    public String retrieveUpdatePegawai(@RequestParam(value = "nip") final String nip,
+                                        final Model model,
+                                        final RedirectAttributes redirectAttributes) {
         final Optional<Pegawai> pegawaiOptional = pegawaiService.getManager().findPegawaiByNip(nip);
-
-        final Message message = new Message();
-        message.setTitle(Pegawai.class.getSimpleName());
         if(!pegawaiOptional.isPresent()) {
             // do something
+            final Message message = new Message();
+            message.setTitle(Pegawai.class.getSimpleName());
             message.setType(Message.Type.WARNING);
             message.setContent("Pegawai tidak ditemukan");
             redirectAttributes.addFlashAttribute(Message.MESSAGE_NAME, message);
             return "redirect:/";
         }
 
-        final PegawaiDC pegawaiDC = new PegawaiDC();
-        pegawaiDC.transferFrom(pegawaiOptional.get());
-
-        model.addAttribute("instansiList", instansiService.getManager().findAll());
-        model.addAttribute("provinsiList", provinsiService.getManager().findAll());
-        model.addAttribute("updatePegawai", pegawaiDC);
-        model.addAttribute(Message.MESSAGE_NAME, message);
-
+        model.addAllAttributes(pegawaiService.getFormOption());
+        model.addAttribute("updatePegawai", DataClassFactory.createPegawaiDataFrom(pegawaiOptional.get()));
         return "pages/UpdatePegawaiPage.html";
     }
 
-    @PostMapping(value = "/pegawai/ubah")
+    @PostMapping(value = "/pegawai/ubah", params = { "j" })
+    public String addMoreJabatanUbah(@ModelAttribute PegawaiDC pegawai,
+                                 final Model model,
+                                 final BindingResult bindingResult) {
+
+        if(pegawai.getJabatans() == null) {
+            List<JabatanDC> jabatanDCList = new ArrayList<>();
+            jabatanDCList.add(new JabatanDC());
+            pegawai.setJabatans(jabatanDCList);
+        } else {
+            pegawai.getJabatans().add(new JabatanDC());
+        }
+
+        model.addAllAttributes(pegawaiService.getFormOption());
+        model.addAttribute("updatePegawai", pegawai);
+        return "pages/UpdatePegawaiPage.html";
+    }
+
+    @PostMapping(value = "/pegawai/ubah", params = { "save" })
     public String updatePegawai(@ModelAttribute final PegawaiDC pegawaiDC,
                                 final BindingResult bindingResult,
                                 final RedirectAttributes redirect) {
@@ -210,9 +235,7 @@ public class PegawaiController {
 
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("pegawaiList", pegawaiList);
-        attributes.put("instansiList", this.instansiService.getManager().findAll());
-        attributes.put("provinsiList", this.provinsiService.getManager().findAll());
-        attributes.put("jabatanList", this.jabatanService.getManager().findAll());
+        attributes.putAll(pegawaiService.getFormOption());
 
         model.addAllAttributes(attributes);
         return "pages/PegawaiSearch.html";

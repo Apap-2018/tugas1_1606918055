@@ -17,7 +17,7 @@ public class InstansiDC implements DataClass<Instansi> {
         this.setId(instansi.getId());
         this.setNama(instansi.getNama());
         this.setDeskripsi(instansi.getDeskripsi());
-        this.setProvinsi(DataClassFactory.createProvinsiData(instansi.getProvinsi()));
+        this.setProvinsi(DataClassFactory.createProvinsiDataFrom(instansi.getProvinsi()));
     }
 
     public Long getId() {

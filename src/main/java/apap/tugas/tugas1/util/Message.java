@@ -1,7 +1,5 @@
 package apap.tugas.tugas1.util;
 
-import static apap.tugas.tugas1.util.Message.Type.*;
-
 public class Message {
 
     private String title;

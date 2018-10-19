@@ -25,4 +25,6 @@ public interface PegawaiService extends BaseService<PegawaiRepository> {
     String generateNipForPegawai(Pegawai pegawai);
 
     Boolean isNeedNewNip(Pegawai pegawai, PegawaiDC pegawaiDC);
+
+    Map<String, Object> getFormOption();
 }

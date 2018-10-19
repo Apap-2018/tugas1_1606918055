@@ -30,4 +30,4 @@
             - solution 2:
                 mungkin asdos tau
     [x] todo: form untuk pegawai kurang jabatan
-    [ ] todo: move all CDN css and javascript to static folder
+    [x] todo: move all CDN css and javascript to static folder

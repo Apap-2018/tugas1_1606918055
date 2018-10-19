@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -140,5 +141,15 @@ public class PegawaiServiceImpl implements PegawaiService {
         options.put("provinsiList", provinsiService.getManager().findAll());
         options.put("jabatanList", jabatanService.getManager().findAll());
         return options;
+    }
+
+    @Override
+    public List<Pegawai> getSearchResult(Long idProvinsi, Long idInstansi, Long idJabatan) {
+        if(idProvinsi == null && idInstansi == null && idJabatan == null) {
+            return pegawaiRepository.findAll();
+        } else {
+            return pegawaiRepository
+                    .findDistinctPegawaiByInstansiIdOrInstansi_ProvinsiIdOrJabatans_Id(idInstansi, idProvinsi, idJabatan);
+        }
     }
 }

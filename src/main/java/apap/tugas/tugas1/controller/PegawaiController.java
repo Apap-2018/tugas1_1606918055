@@ -221,20 +221,15 @@ public class PegawaiController {
     ) {
         LOGGER.log(Level.INFO, () -> idProvinsi + " " + idInstansi + " " + idJabatan + " ");
 
-        List<Pegawai> pegawaiList;
-        if(idProvinsi == null && idInstansi == null && idJabatan == null) {
-            pegawaiList = pegawaiService.getManager().findAll();
-        } else {
-            pegawaiList = pegawaiService.getManager()
-                    .findDistinctPegawaiByInstansiIdOrInstansi_ProvinsiIdOrJabatans_Id(idInstansi, idProvinsi, idJabatan);
-            final Message message = new Message();
-            message.setTitle(Pegawai.class.getSimpleName());
-            message.setContent(pegawaiList.size() + " berhasil ditemukan");
-            model.addAttribute(Message.MESSAGE_NAME, message);
-        }
+        List<Pegawai> pegawaiList = pegawaiService.getSearchResult(idProvinsi, idInstansi, idJabatan);
+
+        final Message message = new Message();
+        message.setTitle(Pegawai.class.getSimpleName());
+        message.setContent(pegawaiList.size() + " berhasil ditemukan");
 
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("pegawaiList", pegawaiList);
+        attributes.put(Message.MESSAGE_NAME, message);
         attributes.putAll(pegawaiService.getFormOption());
 
         model.addAllAttributes(attributes);

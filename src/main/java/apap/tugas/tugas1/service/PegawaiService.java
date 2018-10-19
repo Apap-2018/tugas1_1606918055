@@ -4,6 +4,7 @@ import apap.tugas.tugas1.dataclass.PegawaiDC;
 import apap.tugas.tugas1.model.Pegawai;
 import apap.tugas.tugas1.repository.PegawaiRepository;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PegawaiService extends BaseService<PegawaiRepository> {
@@ -27,4 +28,6 @@ public interface PegawaiService extends BaseService<PegawaiRepository> {
     Boolean isNeedNewNip(Pegawai pegawai, PegawaiDC pegawaiDC);
 
     Map<String, Object> getFormOption();
+
+    List<Pegawai> getSearchResult(Long idProvinsi, Long idInstansi, Long idJabatan);
 }

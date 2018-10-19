@@ -113,13 +113,13 @@ public class JabatanController {
                                 RedirectAttributes redirect) {
 
         Message message = new Message();
-        message.setTitle("Jabatan: " + jabatan.getNama());
+        message.setTitle("Jabatan: " + jabatan.getId());
 
         if(bindingResult.hasErrors()) {
             message.setType(Message.Type.DANGER);
             message.setContent("Gagal mengubah, cek isian");
             redirect.addFlashAttribute(Message.MESSAGE_NAME, message);
-            return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
+            return String.format("redirect:/jabatan/ubah?idJabatan=%d", jabatan.getId());
         }
 
         try {
@@ -129,7 +129,7 @@ public class JabatanController {
         } catch (Exception e) {
             message.setContent("Gagal menghapus, masih tedapat pegawai dengan jabatan " + jabatan.getNama());
             message.setType(Message.Type.DANGER);
-            return String.format("redirect:/jabatan/ubah?jabatanId=%d", jabatan.getId());
+            return String.format("redirect:/jabatan/ubah?idJabatan=%d", jabatan.getId());
 
         } finally {
             redirect.addFlashAttribute(Message.MESSAGE_NAME, message);

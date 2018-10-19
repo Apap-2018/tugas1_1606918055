@@ -16,7 +16,7 @@
     8  [x] [10] ​Menghapus Jabatan    
     9  [x] [5] ​ Menampilkan Daftar Jabatan
     10 [x] [6] ​ Menampilkan Pegawai Termuda dan Tertua di Setiap Instansi
-    11 [ ] [10] aspek sistem interaksi
+    11 [x] [10] aspek sistem interaksi
     12 [x] [5]  Bonus: Menampilkan Jumlah Pegawai untuk Setiap Jabatan
                  - di fitur yang manampilkan daftar jabatan
 
@@ -29,5 +29,5 @@
                 tapi data ilang
             - solution 2:
                 mungkin asdos tau
-    [ ] todo: form untuk pegawai kurang jabatan
+    [x] todo: form untuk pegawai kurang jabatan
     [ ] todo: move all CDN css and javascript to static folder

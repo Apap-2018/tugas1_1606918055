@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Cari Pegawai</title>
+    <th:block th:fragment="cssFragment">
+        <link  rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
+        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    </th:block>
+</head>
+<body>
+<div id="Content">
+    <div class="container-full-bg px-5 my-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>Cari Pegawai</h1>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Filter Pegawai</h4>
+                        <form th:method="GET" th:action="@{/pegawai/cari}">
+                            <div class="form-group">
+                                <label for="provinsiInput">Provinsi</label>
+                                <select class="form-control selectpicker" id="provinsiInput" name="idProvinsi" required
+                                        data-show-subtext="true" data-live-search="true">
+                                    <option th:each="provinsi : ${provinsiList}" th:value="${provinsi.id}" th:text="${provinsi.nama}" th:attr="data-subtext=${provinsi.nama}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="instansiInput">Nama Instansi</label>
+                                <select class="form-control selectpicker" id="instansiInput" name="idInstansi" required
+                                        data-show-subtext="true" data-live-search="true">
+                                    <option th:each="instansi : ${instansiList}" th:value="${instansi.id}" th:text="${instansi.nama}"
+                                            th:attr="data-subtext=${instansi.nama},data-provinsi=${instansi.provinsi.id}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="jabatanInput">Pilih Jabatan</label>
+                                <select class="form-control selectpicker" id="jabatanInput" name="idJabatan" required
+                                        data-show-subtext="true" data-live-search="true">
+                                    <option th:each="jabatan : ${jabatanList}" th:value="${jabatan.id}" th:text="${jabatan.nama}" th:attr="data-subtext=${jabatan.nama}">
+                                    </option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-info">Cari</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="pegawaiTable" class="table table-striped table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">NIP</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Tempat Lahir</th>
+                                    <th scope="col">Tanggal Lahir</th>
+                                    <th scope="col">Tahun Masuk</th>
+                                    <th scope="col">Nama Instansi</th>
+                                    <th scope="col">Jabatan</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="pegawai : ${pegawaiList}" th:object="${pegawai}">
+                                    <td>
+                                        <a th:href="@{/pegawai(nip=*{nip})}" th:text="*{nip}" class="text-info">
+                                            nip
+                                        </a>
+                                    </td>
+                                    <td th:text="*{nama}">nama</td>
+                                    <td th:text="*{tempatLahir}">tempat lahir</td>
+                                    <td th:text="*{tanggalLahir}">tanggal lahir</td>
+                                    <td th:text="*{tahunMasuk}">tahun masuk</td>
+                                    <td th:text="*{instansi.nama}">instansi</td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="jabatan : *{jabatans}">
+                                                <a class="text-info" th:text="${jabatan.nama}" th:href="@{/jabatan(id=${jabatan.id})}">
+                                                    jabatan
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:fragment="jsFragment">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function() {
+            $('#provinsiInput').selectpicker();
+            $('#jabatanInput').selectpicker();
+            $('#pegawaiTable').DataTable();
+
+            const filterInstansiOptions = (idProvinsi) => {
+                const instansiSelect = document.getElementById("instansiInput");
+                Array.prototype.forEach.call(instansiSelect.children, (item) => {
+                    if(item.getAttribute('data-provinsi') === idProvinsi) {
+                        $(item).show();
+                    } else {
+                        $(item).hide();
+                    }
+                })
+            };
+
+            const provinceSelect = document.getElementById("provinsiInput");
+            provinceSelect.addEventListener('change', ({ target }) => {
+                if(target) {
+                    filterInstansiOptions(target.value);
+                }
+            });
+
+            filterInstansiOptions(provinceSelect.value);
+        })
+    </script>
+</th:block>
+</body>
+</html>

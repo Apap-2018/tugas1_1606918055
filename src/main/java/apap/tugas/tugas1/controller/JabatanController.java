@@ -32,8 +32,8 @@ public class JabatanController {
         this.service = service;
     }
 
-    @GetMapping(value = "/jabatan")
-    public String retrieveJabatanDetail(@RequestParam(value = "id") Long jabatanId, Model model) {
+    @GetMapping(value = "/jabatan/view")
+    public String retrieveJabatanDetail(@RequestParam(value = "idJabatan") Long jabatanId, Model model) {
         Optional<Jabatan> jabatan = service.getManager().findById(jabatanId);
 
         if (!jabatan.isPresent()) {

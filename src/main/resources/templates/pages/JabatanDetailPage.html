@@ -28,10 +28,16 @@
                 </ul>
                 <div class="card-body">
                     <div class="row">
-                        <a th:href="@{/jabatan/ubah(idJabatan=${jabatan.getId()})}" class="btn btn-secondary mr-2">Ubah</a>
+                        <a th:href="@{/jabatan/ubah(idJabatan=${jabatan.getId()})}" class="btn btn-secondary mr-2">
+                            <span class="oi oi-pencil"></span>
+                            Ubah
+                        </a>
                         <form th:action="@{/jabatan/hapus}" th:object="${jabatan}" id="hapusJabatan" method="post">
                             <input type="hidden" th:field="*{id}">
-                            <button type="submit" class="btn btn-danger">Hapus</button>
+                            <button type="submit" class="btn btn-danger">
+                                <span class="oi oi-trash"></span>
+                                Hapus
+                            </button>
                         </form>
                     </div>
                 </div>

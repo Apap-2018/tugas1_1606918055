@@ -29,7 +29,9 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="jabatan : ${jabatanList}" th:object="${jabatan}">
-                                    <td th:text="*{nama}"></td>
+                                    <td>
+                                        <a class="text-info" th:text="*{nama}" th:href="@{/jabatan/view(idJabatan=*{id})}"></a>
+                                    </td>
                                     <td th:text="*{deskripsi}"></td>
                                     <td th:text="'Rp'+ *{gajiPokok}"></td>
                                     <td th:text="*{numberOfPegawai}"></td>

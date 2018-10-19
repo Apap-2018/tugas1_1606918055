@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,11 +34,18 @@ public class JabatanController {
     }
 
     @GetMapping(value = "/jabatan/view")
-    public String retrieveJabatanDetail(@RequestParam(value = "idJabatan") Long jabatanId, Model model) {
-        Optional<Jabatan> jabatan = service.getManager().findById(jabatanId);
+    public String retrieveJabatanDetail(@RequestParam(value = "idJabatan") Long idJabatan,
+                                        Model model,
+                                        RedirectAttributes redirectAttributes) {
+        Optional<Jabatan> jabatan = service.getManager().findById(idJabatan);
 
         if (!jabatan.isPresent()) {
             // throw error
+            Message message =  new Message();
+            message.setType(Message.Type.DANGER);
+            message.setTitle(Jabatan.class.getSimpleName());
+            message.setContent(String.format("Jabatan dengan ID: %d tidak ditemukan", idJabatan));
+            redirectAttributes.addFlashAttribute(Message.MESSAGE_NAME, message);
             return "redirect:/";
         }
 
@@ -58,13 +66,25 @@ public class JabatanController {
     public String createJabatan(@ModelAttribute JabatanDC newJabatan, Model model, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            //
+            final Message message = new Message();
+            StringBuilder stringBuilder = new StringBuilder();
+            for(FieldError err : bindingResult.getFieldErrors()) {
+                stringBuilder.append(err.toString());
+                stringBuilder.append('\n');
+            }
+            message.setContent(stringBuilder.toString());
+            message.setType(Message.Type.DANGER);
+
+            model.addAttribute("newJabatan", newJabatan);
+            model.addAttribute(Message.MESSAGE_NAME, message);
+        } else {
+            Jabatan jabatan = this.service.createJabatan(newJabatan);
+
+            model.addAttribute("newJabatan", new JabatanDC());
+            model.addAttribute(
+                    Message.MESSAGE_NAME, new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
         }
 
-        Jabatan jabatan = this.service.createJabatan(newJabatan);
-
-        model.addAttribute("newJabatan", new JabatanDC());
-        model.addAttribute(Message.MESSAGE_NAME, new Message("Jabatan: " + jabatan.getNama(), "Berhasil ditambahkan!", Message.Type.SUCCESS));
 
         return "pages/CreateJabatanPage.html";
     }

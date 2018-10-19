@@ -40,17 +40,11 @@ public class JabatanServiceImpl implements JabatanService {
 
     @Override
     public Jabatan updateJabatan(JabatanDC jabatanDC) {
-        Optional<Jabatan> jOption = this.repository.findById(jabatanDC.getId());
-
-        Jabatan j = null;
-        if(jOption.isPresent()) {
-            j = jOption.get();
-            j.setNama(jabatanDC.getNama());
-            j.setDeskripsi(jabatanDC.getDeskripsi());
-            j.setGajiPokok(jabatanDC.getGajiPokok());
-            this.repository.save(j);
-        }
-
+        Jabatan j = this.repository.getOne(jabatanDC.getId());
+        j.setNama(jabatanDC.getNama());
+        j.setDeskripsi(jabatanDC.getDeskripsi());
+        j.setGajiPokok(jabatanDC.getGajiPokok());
+        this.repository.save(j);
         return j;
     }
 

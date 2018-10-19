@@ -5,6 +5,9 @@
 - mysql (JPA)
 - thymeleaf
 
+## jar 
+ada di folder target versi originalnya
+
 ## features
     1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
     2  [x] [12] ​Menambahkan Pegawai di Suatu Instansi

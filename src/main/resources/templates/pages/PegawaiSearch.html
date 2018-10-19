@@ -3,9 +3,9 @@
 <head>
     <title id="page-title">Cari Pegawai</title>
     <th:block th:fragment="cssFragment">
-        <link  rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
-        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-        <link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+        <link  rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-select.min.css}">
+        <link  rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+        <link  rel="stylesheet" type="text/css" th:href="@{/css/dataTables.bootstrap4.min.css}">
     </th:block>
 </head>
 <body>
@@ -97,9 +97,9 @@
     </div>
 </div>
 <th:block th:fragment="jsFragment">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.dataTables.js}"></script>
+    <script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function() {
             $('#provinsiInput').selectpicker();

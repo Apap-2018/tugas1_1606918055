@@ -53,10 +53,14 @@
         </div>
     </div>
 </th:block>
-<th:block th:fragment="pegawaiForm(formId, formClass, formAction, pegawaiBeanName)">
+<th:block th:fragment="pegawaiForm(formId, formClass, formAction, needNip, pegawaiBeanName)">
     <form th:id="${formId}" th:classappend="${formClass}" th:action="${formAction}"
           th:object="${__${pegawaiBeanName}__}" method="post">
         <input id="id" th:type="hidden" th:field="*{id}" required>
+        <div th:if="${needNip}" class="form-group">
+            <label for="nip">NIP</label>
+            <input id="nip" type="text" disabled class="form-control" aria-describedby="nipHelper" th:field="*{nip}">
+        </div>
         <div class="form-group">
             <label for="nama">Nama</label>
             <input id="nama" type="text" required class="form-control" aria-describedby="namaHelper" th:field="*{nama}">

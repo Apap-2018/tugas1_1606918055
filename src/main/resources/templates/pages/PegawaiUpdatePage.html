@@ -14,7 +14,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body"
-                         th:include="~{components/Pegawai :: pegawaiForm(formId='ubahPegawai', formClass='',formAction=@{/pegawai/ubah}, pegawaiBeanName='updatePegawai')}">
+                         th:include="~{components/Pegawai :: pegawaiForm(formId='ubahPegawai', formClass='',formAction=@{/pegawai/ubah}, needNip=true, pegawaiBeanName='updatePegawai')}">
                     </div>
                 </div>
             </div>

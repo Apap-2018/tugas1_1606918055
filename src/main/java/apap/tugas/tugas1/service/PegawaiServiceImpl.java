@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,6 +27,9 @@ public class PegawaiServiceImpl implements PegawaiService {
     private InstansiService instansiService;
 
     private ProvinsiService provinsiService;
+
+    private static final int START_INDEX_NUMBER_OF_NIP = 14;
+    private static final int START_COUNT_NIP = 1;
 
     @Autowired
     public void setPegawaiRepository(PegawaiRepository pegawaiRepository) {
@@ -73,8 +73,18 @@ public class PegawaiServiceImpl implements PegawaiService {
         tanggalLahirDigit = (day < 10 ? "0" + day : day) + tanggalLahirDigit;
 
         String nipPegawaiWithoutSequence = instansiDigit + tanggalLahirDigit + pegawai.getTahunMasuk();
+        Optional<Pegawai> latestPegawai = this.pegawaiRepository
+                .findFirstPegawaiByNipStartingWithOrderByNipDesc(nipPegawaiWithoutSequence);
+        int totalPegawaiByTahunMasuk = START_COUNT_NIP;
+        if(latestPegawai.isPresent()) {
+            totalPegawaiByTahunMasuk += Integer.parseInt(
+                    latestPegawai
+                            .get()
+                            .getNip()
+                            .substring(START_INDEX_NUMBER_OF_NIP));
+        }
 
-        int totalPegawaiByTahunMasuk = this.pegawaiRepository.countPegawaiByNipStartingWith(nipPegawaiWithoutSequence) + 1;
+
         String seqDigit = totalPegawaiByTahunMasuk < 10 ?
                 "0" + totalPegawaiByTahunMasuk :
                 Integer.toString(totalPegawaiByTahunMasuk);

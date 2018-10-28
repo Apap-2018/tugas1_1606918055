@@ -1,12 +1,10 @@
 # Tugas 1 APAP
 
 ## requirements
+- maven
 - spring boot
 - mysql (JPA)
 - thymeleaf
-
-## jar 
-ada di folder target versi originalnya
 
 ## features
     1  [x] [12] ​Menampilkan Data Pegawai Berdasarkan NIP
@@ -31,6 +29,10 @@ ada di folder target versi originalnya
                 reset data db -> pasti bisa
                 tapi data ilang
             - solution 2:
-                mungkin asdos tau
+                mungkin asdos tau -> identify: langsung pake mekanisme db
     [x] todo: form untuk pegawai kurang jabatan
     [x] todo: move all CDN css and javascript to static folder
+    [x] todo: error page
+    [x] bug: nip sesuai yang diminta
+            - 01,02,03 -> 02 dihapus -> nextnya 04
+            - 01,02,03 -> 03 dhapus -> nextnya 03    

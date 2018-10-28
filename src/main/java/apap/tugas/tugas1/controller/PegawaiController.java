@@ -34,10 +34,6 @@ public class PegawaiController {
 
     private InstansiService instansiService;
 
-    private ProvinsiService provinsiService;
-
-    private JabatanService jabatanService;
-
     @Autowired
     @Qualifier(value = "PegawaiServiceImpl")
     public void setPegawaiService(PegawaiService pegawaiService) {
@@ -49,16 +45,6 @@ public class PegawaiController {
     public void setInstansiService(InstansiService instansiService) {
         this.instansiService = instansiService;
     }
-
-    @Autowired
-    @Qualifier(value = "ProvinsiServiceImpl")
-    public void setProvinsiService(ProvinsiService provinsiService) {
-        this.provinsiService = provinsiService;
-    }
-
-    @Autowired
-    @Qualifier(value = "JabatanServiceImpl")
-    public void setJabatanService(JabatanService jabatanService) { this.jabatanService = jabatanService; }
 
     @GetMapping(value = "/pegawai")
     public String pegawaiDetail(@RequestParam(value = "nip") final String nip,
@@ -97,7 +83,7 @@ public class PegawaiController {
     public String retrieveCreatePegawai(Model model) {
         model.addAllAttributes(pegawaiService.getFormOption());
         model.addAttribute("newPegawai", DataClassFactory.createPegawaiDataForForm());
-        return "pages/CreatePegawaiPage.html";
+        return "pages/PegawaiCreatePage.html";
     }
 
     @PostMapping(value = "/pegawai/tambah", params = { "j" })
@@ -115,7 +101,7 @@ public class PegawaiController {
 
         model.addAllAttributes(pegawaiService.getFormOption());
         model.addAttribute("newPegawai", newPegawai);
-        return "pages/CreatePegawaiPage.html";
+        return "pages/PegawaiCreatePage.html";
     }
 
     @PostMapping(value = "/pegawai/tambah", params = { "save" })
@@ -137,7 +123,7 @@ public class PegawaiController {
 
             model.addAttribute("newPegawai", pegawaiDC);
             model.addAttribute(Message.MESSAGE_NAME, message);
-            return "pages/CreatePegawaiPage.html";
+            return "pages/PegawaiCreatePage.html";
         }
 
         Pegawai pegawai = this.pegawaiService.createPegawai(pegawaiDC);
@@ -164,7 +150,7 @@ public class PegawaiController {
 
         model.addAllAttributes(pegawaiService.getFormOption());
         model.addAttribute("updatePegawai", DataClassFactory.createPegawaiDataFrom(pegawaiOptional.get()));
-        return "pages/UpdatePegawaiPage.html";
+        return "pages/PegawaiUpdatePage.html";
     }
 
     @PostMapping(value = "/pegawai/ubah", params = { "j" })
@@ -182,7 +168,7 @@ public class PegawaiController {
 
         model.addAllAttributes(pegawaiService.getFormOption());
         model.addAttribute("updatePegawai", pegawai);
-        return "pages/UpdatePegawaiPage.html";
+        return "pages/PegawaiUpdatePage.html";
     }
 
     @PostMapping(value = "/pegawai/ubah", params = { "save" })

@@ -59,7 +59,7 @@ public class JabatanController {
     @GetMapping(value = "/jabatan/tambah")
     public String retrieveCreateJabatan(Model model) {
         model.addAttribute("newJabatan", new JabatanDC());
-        return "pages/CreateJabatanPage.html";
+        return "pages/JabatanCreatePage.html";
     }
 
     @PostMapping(value = "/jabatan/tambah")
@@ -86,7 +86,7 @@ public class JabatanController {
         }
 
 
-        return "pages/CreateJabatanPage.html";
+        return "pages/JabatanCreatePage.html";
     }
 
     @GetMapping(value = "/jabatan/ubah")
@@ -102,7 +102,7 @@ public class JabatanController {
             LOGGER.log(Level.INFO, () -> "Jabatan Not Found: " + idJabatan);
         }
 
-        return "pages/UpdateJabatanPage.html";
+        return "pages/JabatanUpdatePage.html";
     }
 
     @PostMapping(value = "/jabatan/ubah")

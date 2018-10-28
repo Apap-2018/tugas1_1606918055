@@ -140,7 +140,7 @@ public class PegawaiServiceImpl implements PegawaiService {
         options.put("instansiList", instansiService.getManager().findAll());
         options.put("provinsiList", provinsiService.getManager().findAll());
         options.put("jabatanList", jabatanService.getManager().findAll());
-        return options;
+        return Collections.unmodifiableMap(options);
     }
 
     @Override

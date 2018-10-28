@@ -109,10 +109,10 @@ public class PegawaiDC implements DataClass<Pegawai> {
     }
 
     public List<JabatanDC> getJabatans() {
-        if(this.jabatans == null && loadJabatans != null) {
-            this.setJabatans(loadJabatans.get());
-        } else if(this.jabatans == null) {
+        if(this.jabatans == null && loadJabatans == null) {
             this.setJabatans(new ArrayList<>());
+        } else if(this.jabatans == null) {
+            this.setJabatans(loadJabatans.get());
         }
 
         return this.jabatans;
